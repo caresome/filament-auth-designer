@@ -196,29 +196,6 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-## API Reference
-
-### AuthDesignerPlugin Methods
-
-#### `login(Layout $layout, ?string $media, MediaDirection $direction, bool|int $blur)`
-Configure the login page.
-- **$layout**: Layout type (default: `Layout::None`)
-- **$media**: Path to image or video (default: `null`)
-- **$direction**: Media position for Side/Panel layouts (default: `MediaDirection::Right`)
-- **$blur**: Blur intensity for Overlay layout, 0-20 or boolean (default: `0`)
-
-#### `registration(Layout $layout, ?string $media, MediaDirection $direction, bool|int $blur)`
-Configure the registration page. Same parameters as `login()`.
-
-#### `passwordReset(Layout $layout, ?string $media, MediaDirection $direction, bool|int $blur)`
-Configure both request password reset and reset password pages. Same parameters as `login()`.
-
-#### `emailVerification(Layout $layout, ?string $media, MediaDirection $direction, bool|int $blur)`
-Configure the email verification page. Same parameters as `login()`.
-
-#### `themeToggle(?ThemePosition $position)`
-Enable theme switcher with optional position (default: `ThemePosition::TopRight`).
-
 ## Testing
 
 ```bash
