@@ -244,18 +244,6 @@ composer format   # Format code with Laravel Pint
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Security
-
-If you discover any security-related issues, please email developer@caresome.app instead of using the issue tracker.
-
-## Credits
-
-- [Caresome](https://github.com/caresome)
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
