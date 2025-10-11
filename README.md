@@ -16,12 +16,6 @@ Transform Filament's default auth pages into stunning, brand-ready experiences w
 - 🧪 **Fully Tested** - 19 comprehensive tests with 75 assertions
 - 🎯 **Type Safe** - No magic strings, fully typed configuration
 
-## Requirements
-
-- PHP 8.2 or higher
-- Laravel 11.0 or 12.0
-- Filament 4.0 or higher
-
 ## Installation
 
 Install the package via Composer:
