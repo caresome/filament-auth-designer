@@ -40,7 +40,7 @@ public function panel(Panel $panel): Panel
             AuthDesignerPlugin::make()
                 ->login(
                     layout: Layout::Overlay,
-                    media: '/images/auth-background.jpg'
+                    media: asset('assets/image.jpg')
                 )
         );
 }
@@ -63,7 +63,7 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 
 ->login(
     layout: Layout::Side,
-    media: '/images/login-bg.jpg',
+    media: asset('assets/image.jpg'),
     direction: MediaDirection::Right // or MediaDirection::Left
 )
 ```
@@ -74,7 +74,7 @@ Fullscreen background with form overlay:
 ```php
 ->login(
     layout: Layout::Overlay,
-    media: '/images/login-bg.jpg',
+    media: asset('assets/image.jpg'),
     blur: 8 // Blur intensity (0-20), default is 0
 )
 ```
@@ -85,7 +85,7 @@ Media banner at the top with form below:
 ```php
 ->login(
     layout: Layout::Top,
-    media: '/images/login-banner.jpg'
+    media: asset('assets/image.jpg')
 )
 ```
 
@@ -95,7 +95,7 @@ Fullscreen background with side panel form:
 ```php
 ->login(
     layout: Layout::Panel,
-    media: '/images/login-bg.jpg',
+    media: asset('assets/image.jpg'),
     direction: MediaDirection::Right // Panel position
 )
 ```
@@ -107,7 +107,7 @@ Simply provide a video URL instead of an image:
 ```php
 ->login(
     layout: Layout::Overlay,
-    media: '/videos/background.mp4'
+    media: asset('assets/video.mp4')
 )
 ```
 
@@ -126,16 +126,16 @@ AuthDesignerPlugin::make()
     )
     ->registration(
         layout: Layout::Side,
-        media: '/images/register-bg.jpg',
+        media: asset('assets/image.jpg'),
         direction: MediaDirection::Left
     )
     ->passwordReset(
         layout: Layout::Top,
-        media: '/images/reset-banner.jpg'
+        media: asset('assets/image.jpg')
     )
     ->emailVerification(
         layout: Layout::Panel,
-        media: '/images/verify-bg.jpg'
+        media: asset('assets/image.jpg')
     )
 ```
 
@@ -147,7 +147,7 @@ Enable the theme switcher for light/dark mode:
 use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 
 AuthDesignerPlugin::make()
-    ->login(layout: Layout::Overlay, media: '/images/bg.jpg')
+    ->login(layout: Layout::Overlay, media: asset('assets/image.jpg'))
     ->themeToggle() // Default position: top-right
 
 // Or specify position:
@@ -177,17 +177,22 @@ public function panel(Panel $panel): Panel
             AuthDesignerPlugin::make()
                 ->login(
                     layout: Layout::Overlay,
-                    media: '/images/auth/login-bg.jpg',
+                    media: asset('assets/image.jpg'),
                     blur: 8
                 )
                 ->registration(
                     layout: Layout::Side,
-                    media: '/images/auth/register-bg.jpg',
+                    media: asset('assets/image.jpg'),
+                    direction: MediaDirection::Left
+                )
+                ->emailVerification(
+                    layout: Layout::Panel,
+                    media: asset('assets/video.mp4'),
                     direction: MediaDirection::Left
                 )
                 ->passwordReset(
                     layout: Layout::Top,
-                    media: '/videos/reset-banner.mp4'
+                    media: asset('assets/video.mp4')
                 )
                 ->themeToggle(ThemePosition::TopRight)
         );
