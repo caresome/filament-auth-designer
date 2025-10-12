@@ -56,7 +56,7 @@ Standard Filament auth page with no media:
 ->login(layout: AuthLayout::None)
 ```
 
-<img width="100%" height="auto" alt="none-layout" src="https://github.com/user-attachments/assets/502ba03b-3206-415c-bd8b-abb2889cc4a0" />
+![none-layout](https://github.com/user-attachments/assets/7b6b89a7-c245-43c1-935a-dd7e0a63e74e)
 
 
 #### 2. Split Layout
@@ -72,7 +72,7 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-<img width="100%" height="auto" alt="split-layout" src="https://github.com/user-attachments/assets/9d8e4ad2-1200-4ba2-a107-c293f6795580" />
+![split-layout](https://github.com/user-attachments/assets/a4d7de54-0703-4aac-9e78-ebbc2161bebb)
 
 
 #### 3. Overlay Layout
@@ -86,7 +86,7 @@ Fullscreen background with form overlay:
 )
 ```
 
-<img width="100%" height="auto" alt="overlay-layout" src="https://github.com/user-attachments/assets/4de0be83-6b5e-4a84-8342-28536309001a" />
+![overlay-layout](https://github.com/user-attachments/assets/84dba0d0-94e4-4aa6-8e86-e1c8702f392b)
 
 
 #### 4. Top Banner Layout
@@ -99,7 +99,7 @@ Media banner at the top with form below:
 )
 ```
 
-<img width="100%" height="auto" alt="top-layout" src="https://github.com/user-attachments/assets/b3acd209-9f9c-48ed-a58c-8e83964c569f" />
+![top-layout](https://github.com/user-attachments/assets/e781e0c5-f2d3-47fa-8ec4-15b756d3b8f5)
 
 
 #### 5. Side Panel Layout
@@ -113,7 +113,7 @@ Fullscreen background with side panel form:
 )
 ```
 
-<img width="100%" height="auto" alt="panel-layout" src="https://github.com/user-attachments/assets/814fa529-90d8-4965-ad35-d9374b97d9d6" />
+![panel-layout](https://github.com/user-attachments/assets/4d08b7d8-5a3c-4c9e-b862-f33e0ed3bea7)
 
 
 ### Video Backgrounds
@@ -173,14 +173,15 @@ AuthDesignerPlugin::make()
 ->themeToggle(ThemePosition::BottomLeft)
 ```
 
-<img width="100%" height="auto" alt="theme-toggle" src="https://github.com/user-attachments/assets/b5498623-bc60-4438-91ad-52d0483d64ec" />
-
-
 Available positions:
 - `ThemePosition::TopRight` (default)
 - `ThemePosition::TopLeft`
 - `ThemePosition::BottomRight`
 - `ThemePosition::BottomLeft`
+
+
+![theme-position](https://github.com/user-attachments/assets/748677ea-ebcf-4831-bf80-9ee03b42dfc9)
+
 
 ### Complete Example
 
