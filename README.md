@@ -55,7 +55,7 @@ Standard Filament auth page with no media:
 ->login(layout: Layout::None)
 ```
 
-<img width="100%" height="auto" alt="Layout Type None" src="https://github.com/user-attachments/assets/77a41255-27ae-4be2-9f61-3c1321ef3d75" />
+<img width="100%" height="auto" alt="none-layout" src="https://github.com/user-attachments/assets/502ba03b-3206-415c-bd8b-abb2889cc4a0" />
 
 
 #### 2. Side Layout
@@ -71,8 +71,7 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-<img width="100%" height="auto" alt="Layout Type Split" src="https://github.com/user-attachments/assets/32ae5964-0a19-47e1-96aa-11cd1ff5d033" />
-
+<img width="100%" height="auto" alt="split-layout" src="https://github.com/user-attachments/assets/9d8e4ad2-1200-4ba2-a107-c293f6795580" />
 
 
 #### 3. Overlay Layout
@@ -86,8 +85,7 @@ Fullscreen background with form overlay:
 )
 ```
 
-<img width="100%" height="auto" alt="Layout Type Overlay" src="https://github.com/user-attachments/assets/6764a134-01ae-4ceb-83b1-86852765d8dc" />
-
+<img width="100%" height="auto" alt="overlay-layout" src="https://github.com/user-attachments/assets/4de0be83-6b5e-4a84-8342-28536309001a" />
 
 
 #### 4. Top Banner Layout
@@ -100,7 +98,7 @@ Media banner at the top with form below:
 )
 ```
 
-<img width="100%" height="auto" alt="Layout Type Top" src="https://github.com/user-attachments/assets/e14a8ddd-df0f-4454-bfca-262836f5c228" />
+<img width="100%" height="auto" alt="top-layout" src="https://github.com/user-attachments/assets/b3acd209-9f9c-48ed-a58c-8e83964c569f" />
 
 
 #### 5. Side Panel Layout
@@ -114,7 +112,7 @@ Fullscreen background with side panel form:
 )
 ```
 
-<img width="100%" height="auto" alt="Layout Type Panel" src="https://github.com/user-attachments/assets/07f7e57c-11c4-453f-bdaa-a9766a9e4d59" />
+<img width="100%" height="auto" alt="panel-layout" src="https://github.com/user-attachments/assets/814fa529-90d8-4965-ad35-d9374b97d9d6" />
 
 
 ### Video Backgrounds
@@ -174,8 +172,7 @@ AuthDesignerPlugin::make()
 ->themeToggle(ThemePosition::BottomLeft)
 ```
 
-<img width="100%" height="auto" alt="Theme Toggle" src="https://github.com/user-attachments/assets/f40cfb74-208c-4c50-adc3-5323b1aaea0f" />
-
+<img width="100%" height="auto" alt="theme-toggle" src="https://github.com/user-attachments/assets/b5498623-bc60-4438-91ad-52d0483d64ec" />
 
 
 Available positions:
