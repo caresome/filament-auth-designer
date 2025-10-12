@@ -55,7 +55,7 @@ Standard Filament auth page with no media:
 ->login(layout: Layout::None)
 ```
 
-<img width="3600" height="2248" alt="Layout Type None" src="https://github.com/user-attachments/assets/77a41255-27ae-4be2-9f61-3c1321ef3d75" />
+<img width="100%" height="auto" alt="Layout Type None" src="https://github.com/user-attachments/assets/77a41255-27ae-4be2-9f61-3c1321ef3d75" />
 
 
 #### 2. Side Layout
@@ -71,7 +71,7 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-<img width="3600" height="2252" alt="Layout Type Split" src="https://github.com/user-attachments/assets/32ae5964-0a19-47e1-96aa-11cd1ff5d033" />
+<img width="100%" height="auto" alt="Layout Type Split" src="https://github.com/user-attachments/assets/32ae5964-0a19-47e1-96aa-11cd1ff5d033" />
 
 
 
@@ -86,7 +86,7 @@ Fullscreen background with form overlay:
 )
 ```
 
-<img width="3600" height="2248" alt="Layout Type Overlay" src="https://github.com/user-attachments/assets/6764a134-01ae-4ceb-83b1-86852765d8dc" />
+<img width="100%" height="auto" alt="Layout Type Overlay" src="https://github.com/user-attachments/assets/6764a134-01ae-4ceb-83b1-86852765d8dc" />
 
 
 
@@ -100,7 +100,7 @@ Media banner at the top with form below:
 )
 ```
 
-<img width="3600" height="2250" alt="Layout Type Top" src="https://github.com/user-attachments/assets/e14a8ddd-df0f-4454-bfca-262836f5c228" />
+<img width="100%" height="auto" alt="Layout Type Top" src="https://github.com/user-attachments/assets/e14a8ddd-df0f-4454-bfca-262836f5c228" />
 
 
 #### 5. Side Panel Layout
@@ -114,7 +114,7 @@ Fullscreen background with side panel form:
 )
 ```
 
-<img width="3600" height="2248" alt="Layout Type Panel" src="https://github.com/user-attachments/assets/07f7e57c-11c4-453f-bdaa-a9766a9e4d59" />
+<img width="100%" height="auto" alt="Layout Type Panel" src="https://github.com/user-attachments/assets/07f7e57c-11c4-453f-bdaa-a9766a9e4d59" />
 
 
 ### Video Backgrounds
@@ -174,7 +174,7 @@ AuthDesignerPlugin::make()
 ->themeToggle(ThemePosition::BottomLeft)
 ```
 
-<img width="1800" height="1125" alt="Theme Toggle" src="https://github.com/user-attachments/assets/f40cfb74-208c-4c50-adc3-5323b1aaea0f" />
+<img width="100%" height="auto" alt="Theme Toggle" src="https://github.com/user-attachments/assets/f40cfb74-208c-4c50-adc3-5323b1aaea0f" />
 
 
 
