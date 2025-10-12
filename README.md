@@ -127,7 +127,9 @@ Simply provide a video URL instead of an image:
 )
 ```
 
-https://github.com/user-attachments/assets/67ce3721-0f5e-41e0-9542-9b2d99fcfca9
+
+https://github.com/user-attachments/assets/154006f8-91b6-4e6e-9ed9-854442fe6a49
+
 
 
 Supported formats: `.mp4`, `.webm`, `.mov`, `.ogg`
