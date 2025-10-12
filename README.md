@@ -54,14 +54,15 @@ public function panel(Panel $panel): Panel
 
 ### Layout Types
 
-#### 1. None (Default)
+#### 1. None/Minimal (Default)
 Standard Filament auth page with no media:
 
 ```php
 ->login(layout: AuthLayout::None)
 ```
 
-![none-layout](https://github.com/user-attachments/assets/7b6b89a7-c245-43c1-935a-dd7e0a63e74e)
+
+![none-layout](https://github.com/user-attachments/assets/2bd34599-2578-474e-a47b-26e13f6b8fbb)
 
 
 #### 2. Split Layout
@@ -77,7 +78,7 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-![split-layout](https://github.com/user-attachments/assets/a4d7de54-0703-4aac-9e78-ebbc2161bebb)
+![split-layout](https://github.com/user-attachments/assets/7e16dbc4-b968-4334-a17b-3a59d1b47135)
 
 
 #### 3. Overlay Layout
@@ -91,7 +92,7 @@ Fullscreen background with form overlay:
 )
 ```
 
-![overlay-layout](https://github.com/user-attachments/assets/84dba0d0-94e4-4aa6-8e86-e1c8702f392b)
+![overlay-layout](https://github.com/user-attachments/assets/da60d0d8-bfec-44a4-9299-0978f656ba04)
 
 
 #### 4. Top Banner Layout
@@ -104,7 +105,7 @@ Media banner at the top with form below:
 )
 ```
 
-![top-layout](https://github.com/user-attachments/assets/e781e0c5-f2d3-47fa-8ec4-15b756d3b8f5)
+![top-layout](https://github.com/user-attachments/assets/6e5004b2-7433-40b3-ae27-1fb780e14024)
 
 
 #### 5. Side Panel Layout
@@ -118,7 +119,7 @@ Fullscreen background with side panel form:
 )
 ```
 
-![panel-layout](https://github.com/user-attachments/assets/4d08b7d8-5a3c-4c9e-b862-f33e0ed3bea7)
+![panel-layout](https://github.com/user-attachments/assets/93556a94-d55f-474e-9476-993201521ced)
 
 
 ### Video Backgrounds
@@ -187,7 +188,7 @@ Available positions:
 - `ThemePosition::BottomLeft`
 
 
-![theme-position](https://github.com/user-attachments/assets/748677ea-ebcf-4831-bf80-9ee03b42dfc9)
+![theme-position](https://github.com/user-attachments/assets/12d891f8-85fd-4a30-be5f-a986a151f9e4)
 
 
 ### Complete Example
