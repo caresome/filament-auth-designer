@@ -6,12 +6,13 @@ Transform Filament's default auth pages with customizable layouts, media backgro
 
 ## Features
 
-- 🎨 **Five Layout Types** - Choose from None, Side, Overlay, Top Banner, or Side Panel
+- 🎨 **Five Layout Types** - Choose from None, Split, Overlay, Top Banner, or Side Panel
 - 🖼️ **Media Backgrounds** - Support for both images and videos
 - 📐 **Flexible Positioning** - Place media on left or right side
 - 🌫️ **Blur Effects** - Configurable blur intensity for overlay layouts
 - 🌓 **Theme Toggle** - Built-in light/dark/system theme switcher
 - 📍 **Positionable Theme Toggle** - Place theme switcher in any corner
+- 🚪 **Email Verification Logout** - Logout button on email verification page for easy account switching
 - ⚡ **Zero Configuration** - Works out of the box with sensible defaults
 
 ## Installation
@@ -30,7 +31,7 @@ In your Filament Panel Provider (e.g., `app/Providers/Filament/AdminPanelProvide
 
 ```php
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
-use Caresome\FilamentAuthDesigner\Enums\Layout;
+use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 
 public function panel(Panel $panel): Panel
 {
@@ -39,7 +40,7 @@ public function panel(Panel $panel): Panel
         ->plugin(
             AuthDesignerPlugin::make()
                 ->login(
-                    layout: Layout::Overlay,
+                    layout: AuthLayout::Overlay,
                     media: asset('assets/image.jpg')
                 )
         );
@@ -52,20 +53,20 @@ public function panel(Panel $panel): Panel
 Standard Filament auth page with no media:
 
 ```php
-->login(layout: Layout::None)
+->login(layout: AuthLayout::None)
 ```
 
 <img width="100%" height="auto" alt="none-layout" src="https://github.com/user-attachments/assets/502ba03b-3206-415c-bd8b-abb2889cc4a0" />
 
 
-#### 2. Side Layout
+#### 2. Split Layout
 Split-screen with media on one side:
 
 ```php
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 
 ->login(
-    layout: Layout::Side,
+    layout: AuthLayout::Split,
     media: asset('assets/image.jpg'),
     direction: MediaDirection::Right // or MediaDirection::Left
 )
@@ -79,7 +80,7 @@ Fullscreen background with form overlay:
 
 ```php
 ->login(
-    layout: Layout::Overlay,
+    layout: AuthLayout::Overlay,
     media: asset('assets/image.jpg'),
     blur: 8 // Blur intensity (0-20), default is 0
 )
@@ -93,7 +94,7 @@ Media banner at the top with form below:
 
 ```php
 ->login(
-    layout: Layout::Top,
+    layout: AuthLayout::Top,
     media: asset('assets/image.jpg')
 )
 ```
@@ -106,7 +107,7 @@ Fullscreen background with side panel form:
 
 ```php
 ->login(
-    layout: Layout::Panel,
+    layout: AuthLayout::Panel,
     media: asset('assets/image.jpg'),
     direction: MediaDirection::Right // Panel position
 )
@@ -121,7 +122,7 @@ Simply provide a video URL instead of an image:
 
 ```php
 ->login(
-    layout: Layout::Overlay,
+    layout: AuthLayout::Overlay,
     media: asset('assets/video.mp4')
 )
 ```
@@ -138,21 +139,21 @@ You can configure each auth page independently:
 ```php
 AuthDesignerPlugin::make()
     ->login(
-        layout: Layout::Overlay,
+        layout: AuthLayout::Overlay,
         media: '/images/login-bg.jpg',
         blur: 10
     )
     ->registration(
-        layout: Layout::Side,
+        layout: AuthLayout::Split,
         media: asset('assets/image.jpg'),
         direction: MediaDirection::Left
     )
     ->passwordReset(
-        layout: Layout::Top,
+        layout: AuthLayout::Top,
         media: asset('assets/image.jpg')
     )
     ->emailVerification(
-        layout: Layout::Panel,
+        layout: AuthLayout::Panel,
         media: asset('assets/image.jpg')
     )
 ```
@@ -185,7 +186,7 @@ Available positions:
 
 ```php
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
-use Caresome\FilamentAuthDesigner\Enums\Layout;
+use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 
@@ -197,22 +198,22 @@ public function panel(Panel $panel): Panel
         ->plugin(
             AuthDesignerPlugin::make()
                 ->login(
-                    layout: Layout::Overlay,
+                    layout: AuthLayout::Overlay,
                     media: asset('assets/image.jpg'),
                     blur: 8
                 )
                 ->registration(
-                    layout: Layout::Side,
+                    layout: AuthLayout::Split,
                     media: asset('assets/image.jpg'),
                     direction: MediaDirection::Left
                 )
                 ->emailVerification(
-                    layout: Layout::Panel,
+                    layout: AuthLayout::Panel,
                     media: asset('assets/video.mp4'),
                     direction: MediaDirection::Left
                 )
                 ->passwordReset(
-                    layout: Layout::Top,
+                    layout: AuthLayout::Top,
                     media: asset('assets/video.mp4')
                 )
                 ->themeToggle(ThemePosition::TopRight)

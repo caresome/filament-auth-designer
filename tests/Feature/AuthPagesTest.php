@@ -1,7 +1,7 @@
 <?php
 
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
-use Caresome\FilamentAuthDesigner\Enums\Layout;
+use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
@@ -14,7 +14,7 @@ beforeEach(function () {
 it('login page shares configuration to view', function () {
     AuthDesignerPlugin::make()
         ->login(
-            layout: Layout::Overlay,
+            layout: AuthLayout::Overlay,
             media: '/images/login-bg.jpg',
             direction: MediaDirection::Left,
             blur: 10
@@ -24,7 +24,7 @@ it('login page shares configuration to view', function () {
     $loginPage->boot();
 
     expect(View::getShared())->toHaveKey('authDesignerMedia', '/images/login-bg.jpg')
-        ->toHaveKey('authDesignerPosition', Layout::Overlay)
+        ->toHaveKey('authDesignerPosition', AuthLayout::Overlay)
         ->toHaveKey('authDesignerDirection', MediaDirection::Left)
         ->toHaveKey('authDesignerBlur', 10);
 });
@@ -32,7 +32,7 @@ it('login page shares configuration to view', function () {
 it('registration page shares configuration to view', function () {
     AuthDesignerPlugin::make()
         ->registration(
-            layout: Layout::Side,
+            layout: AuthLayout::Split,
             media: '/images/register-bg.jpg',
             direction: MediaDirection::Right,
             blur: 5
@@ -42,7 +42,7 @@ it('registration page shares configuration to view', function () {
     $registerPage->boot();
 
     expect(View::getShared())->toHaveKey('authDesignerMedia', '/images/register-bg.jpg')
-        ->toHaveKey('authDesignerPosition', Layout::Side)
+        ->toHaveKey('authDesignerPosition', AuthLayout::Split)
         ->toHaveKey('authDesignerDirection', MediaDirection::Right)
         ->toHaveKey('authDesignerBlur', 5);
 });
@@ -59,15 +59,15 @@ it('auth page uses default values when no configuration provided', function () {
 
 it('different auth pages have isolated configurations', function () {
     AuthDesignerPlugin::make()
-        ->login(layout: Layout::Overlay, media: '/login.jpg', blur: 10)
-        ->registration(layout: Layout::Side, media: '/register.jpg', blur: 0);
+        ->login(layout: AuthLayout::Overlay, media: '/login.jpg', blur: 10)
+        ->registration(layout: AuthLayout::Split, media: '/register.jpg', blur: 0);
 
     $loginPage = new Login;
     $loginPage->boot();
 
     $shared = View::getShared();
     expect($shared['authDesignerMedia'])->toBe('/login.jpg')
-        ->and($shared['authDesignerPosition'])->toBe(Layout::Overlay)
+        ->and($shared['authDesignerPosition'])->toBe(AuthLayout::Overlay)
         ->and($shared['authDesignerBlur'])->toBe(10);
 
     View::getFinder()->flush();
@@ -77,7 +77,7 @@ it('different auth pages have isolated configurations', function () {
 
     $shared = View::getShared();
     expect($shared['authDesignerMedia'])->toBe('/register.jpg')
-        ->and($shared['authDesignerPosition'])->toBe(Layout::Side)
+        ->and($shared['authDesignerPosition'])->toBe(AuthLayout::Split)
         ->and($shared['authDesignerBlur'])->toBe(0);
 });
 

@@ -1,3 +1,11 @@
+.fi-simple-header {
+    align-items: start;
+}
+
+.fi-simple-header-heading {
+    text-align: left;
+}
+
 /* AuthDesigner Split-Screen Layout Styles */
 
 .fi-auth-split-screen {
@@ -274,10 +282,16 @@
         background-color: var(--gray-900);
     }
 
-    .fi-auth-side-panel.has-media.media-left .fi-auth-side-panel-container {
+    .fi-auth-side-panel.has-media.media-right .fi-auth-side-panel-container {
         margin-left: 0;
         margin-right: auto;
         box-shadow: 4px 0 24px color-mix(in srgb, var(--gray-950) 15%, transparent);
+    }
+
+    .fi-auth-side-panel.has-media.media-left .fi-auth-side-panel-container {
+        margin-left: auto;
+        margin-right: 0;
+        box-shadow: -4px 0 24px color-mix(in srgb, var(--gray-950) 15%, transparent);
     }
 
     .fi-auth-side-panel.no-media .fi-auth-side-panel-container {
@@ -291,15 +305,16 @@
 .fi-auth-theme-switcher-wrapper {
     position: fixed;
     z-index: 50;
-    background-color: var(--gray-50);
+    background-color: var(--gray-100);
     border-radius: var(--radius-lg);
     padding: 0.25rem;
     box-shadow: var(--ring-shadow);
-    backdrop-filter: blur(8px);
+    border: 1px solid var(--gray-200);
 }
 
 .dark .fi-auth-theme-switcher-wrapper {
     background-color: var(--gray-900);
+    border: 1px solid var(--gray-800);
 }
 
 .fi-auth-theme-switcher-wrapper.fi-position-top-right {

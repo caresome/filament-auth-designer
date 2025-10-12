@@ -1,11 +1,11 @@
 @php
     use Caresome\FilamentAuthDesigner\ConfigKeys;
-    use Caresome\FilamentAuthDesigner\Enums\Layout;
+    use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
     use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
     use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 
     $media = $authDesignerMedia ?? null;
-    $layout = $authDesignerPosition ?? Layout::None;
+    $layout = $authDesignerPosition ?? AuthLayout::None;
     $direction = $authDesignerDirection ?? MediaDirection::Right;
     $blur = $authDesignerBlur ?? 0;
     $showThemeSwitcher = app()->has(ConfigKeys::THEME_SWITCHER)
@@ -27,7 +27,7 @@
 
     $isMediaLeft = $direction === MediaDirection::Left;
 
-    if ($hasMedia && $layout === Layout::Overlay) {
+    if ($hasMedia && $layout === AuthLayout::Overlay) {
         $blurOverlay = $blur === false || $blur === 0 ? '0px' :
                        ($blur === true ? '8px' : $blur . 'px');
         $blurContent = $blur === false || $blur === 0 ? '0px' :
@@ -38,11 +38,11 @@
     }
 
     $layoutClass = match($layout) {
-        Layout::None => 'fi-auth-minimal',
-        Layout::Side => 'fi-auth-split-screen',
-        Layout::Overlay => 'fi-auth-fullscreen',
-        Layout::Top => 'fi-auth-top-banner',
-        Layout::Panel => 'fi-auth-side-panel',
+        AuthLayout::None => 'fi-auth-minimal',
+        AuthLayout::Split => 'fi-auth-split-screen',
+        AuthLayout::Overlay => 'fi-auth-fullscreen',
+        AuthLayout::Top => 'fi-auth-top-banner',
+        AuthLayout::Panel => 'fi-auth-side-panel',
     };
 
     $mediaClass = $hasMedia ? 'has-media' : 'no-media';
@@ -56,13 +56,13 @@
         </div>
     @endif
 
-    @if($layout === Layout::None || (!$hasMedia && $layout !== Layout::Overlay))
+    @if($layout === AuthLayout::None || (!$hasMedia && $layout !== AuthLayout::Overlay))
         <div class="{{ $layoutClass }}">
             <div class="fi-auth-minimal-container">
                 {{ $slot }}
             </div>
         </div>
-    @elseif($layout === Layout::Side)
+    @elseif($layout === AuthLayout::Split)
         <div class="{{ $layoutClass }} {{ $mediaClass }} {{ $directionClass }}">
             <div class="fi-auth-split-form-side">
                 <div class="fi-auth-split-form-container">
@@ -95,7 +95,7 @@
                 </div>
             @endif
         </div>
-    @elseif($layout === Layout::Overlay)
+    @elseif($layout === AuthLayout::Overlay)
         <div class="{{ $layoutClass }} {{ $mediaClass }}" style="--blur-overlay: {{ $blurOverlay }}; --blur-content: {{ $blurContent }}">
             @if($hasMedia)
                 <div class="fi-auth-fullscreen-background">
@@ -126,7 +126,7 @@
                 </x-filament::section>
             </div>
         </div>
-    @elseif($layout === Layout::Top)
+    @elseif($layout === AuthLayout::Top)
         <div class="{{ $layoutClass }} {{ $mediaClass }}">
             @if($hasMedia)
                 <div class="fi-auth-top-banner-media">
@@ -149,7 +149,7 @@
                 </div>
             </div>
         </div>
-    @elseif($layout === Layout::Panel)
+    @elseif($layout === AuthLayout::Panel)
         <div class="{{ $layoutClass }} {{ $mediaClass }} {{ $directionClass }}">
             @if($hasMedia)
                 <div class="fi-auth-side-panel-media">

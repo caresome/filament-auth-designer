@@ -2,7 +2,7 @@
 
 namespace Caresome\FilamentAuthDesigner;
 
-use Caresome\FilamentAuthDesigner\Enums\Layout;
+use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 use Caresome\FilamentAuthDesigner\Pages\Auth\EmailVerification;
@@ -73,7 +73,7 @@ class AuthDesignerPlugin implements Plugin
         return filament(app(static::class)->getId());
     }
 
-    public function login(Layout $layout = Layout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function login(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
     {
         $this->configureAuthPage('login', $layout, $media, $direction, $blur);
         $this->loginPageClass = Login::class;
@@ -81,7 +81,7 @@ class AuthDesignerPlugin implements Plugin
         return $this;
     }
 
-    public function registration(Layout $layout = Layout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function registration(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
     {
         $this->configureAuthPage('registration', $layout, $media, $direction, $blur);
         $this->registerPageClass = Register::class;
@@ -89,7 +89,7 @@ class AuthDesignerPlugin implements Plugin
         return $this;
     }
 
-    public function passwordReset(Layout $layout = Layout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function passwordReset(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
     {
         $this->configureAuthPage('password-reset', $layout, $media, $direction, $blur);
         $this->requestPasswordResetPageClass = RequestPasswordReset::class;
@@ -98,7 +98,7 @@ class AuthDesignerPlugin implements Plugin
         return $this;
     }
 
-    public function emailVerification(Layout $layout = Layout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function emailVerification(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
     {
         $this->configureAuthPage('email-verification', $layout, $media, $direction, $blur);
         $this->emailVerificationPageClass = EmailVerification::class;
@@ -114,7 +114,7 @@ class AuthDesignerPlugin implements Plugin
         return $this;
     }
 
-    private function configureAuthPage(string $key, Layout $layout, ?string $media, MediaDirection $direction, bool|int $blur): void
+    private function configureAuthPage(string $key, AuthLayout $layout, ?string $media, MediaDirection $direction, bool|int $blur): void
     {
         app()->instance(ConfigKeys::media($key), $media);
         app()->instance(ConfigKeys::position($key), $layout);

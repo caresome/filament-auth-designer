@@ -2,10 +2,10 @@
 
 namespace Caresome\FilamentAuthDesigner\Enums;
 
-enum Layout: string
+enum AuthLayout: string
 {
     case None = 'none';
-    case Side = 'side';
+    case Split = 'split';
     case Overlay = 'overlay';
     case Top = 'top';
     case Panel = 'panel';
