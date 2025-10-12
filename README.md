@@ -15,6 +15,11 @@ Transform Filament's default auth pages with customizable layouts, media backgro
 - 🚪 **Email Verification Logout** - Logout button on email verification page for easy account switching
 - ⚡ **Zero Configuration** - Works out of the box with sensible defaults
 
+
+![Thumbnail](https://github.com/user-attachments/assets/9cbb32f1-d73c-4962-b73a-123a48f0efc2)
+
+
+
 ## Installation
 
 Install the package via Composer:
