@@ -55,6 +55,9 @@ Standard Filament auth page with no media:
 ->login(layout: Layout::None)
 ```
 
+<img width="3600" height="2248" alt="Layout Type None" src="https://github.com/user-attachments/assets/77a41255-27ae-4be2-9f61-3c1321ef3d75" />
+
+
 #### 2. Side Layout
 Split-screen with media on one side:
 
@@ -68,6 +71,10 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
+<img width="3600" height="2252" alt="Layout Type Split" src="https://github.com/user-attachments/assets/32ae5964-0a19-47e1-96aa-11cd1ff5d033" />
+
+
+
 #### 3. Overlay Layout
 Fullscreen background with form overlay:
 
@@ -79,6 +86,10 @@ Fullscreen background with form overlay:
 )
 ```
 
+<img width="3600" height="2248" alt="Layout Type Overlay" src="https://github.com/user-attachments/assets/6764a134-01ae-4ceb-83b1-86852765d8dc" />
+
+
+
 #### 4. Top Banner Layout
 Media banner at the top with form below:
 
@@ -88,6 +99,9 @@ Media banner at the top with form below:
     media: asset('assets/image.jpg')
 )
 ```
+
+<img width="3600" height="2250" alt="Layout Type Top" src="https://github.com/user-attachments/assets/e14a8ddd-df0f-4454-bfca-262836f5c228" />
+
 
 #### 5. Side Panel Layout
 Fullscreen background with side panel form:
@@ -100,6 +114,9 @@ Fullscreen background with side panel form:
 )
 ```
 
+<img width="3600" height="2248" alt="Layout Type Panel" src="https://github.com/user-attachments/assets/07f7e57c-11c4-453f-bdaa-a9766a9e4d59" />
+
+
 ### Video Backgrounds
 
 Simply provide a video URL instead of an image:
@@ -110,6 +127,9 @@ Simply provide a video URL instead of an image:
     media: asset('assets/video.mp4')
 )
 ```
+
+https://github.com/user-attachments/assets/276348d4-e919-4381-adcc-34ccb1d36f0f
+
 
 Supported formats: `.mp4`, `.webm`, `.mov`, `.ogg`
 
@@ -153,6 +173,10 @@ AuthDesignerPlugin::make()
 // Or specify position:
 ->themeToggle(ThemePosition::BottomLeft)
 ```
+
+<img width="1800" height="1125" alt="Theme Toggle" src="https://github.com/user-attachments/assets/f40cfb74-208c-4c50-adc3-5323b1aaea0f" />
+
+
 
 Available positions:
 - `ThemePosition::TopRight` (default)
