@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/caresome/filament-auth-designer.svg?style=flat-square)](https://packagist.org/packages/caresome/filament-auth-designer)
 
-Transform Filament's default auth pages into stunning, brand-ready experiences with customizable layouts, media backgrounds, and theme switching.
+Transform Filament's default auth pages with customizable layouts, media backgrounds, and theme switcher.
 
 ## Features
 
