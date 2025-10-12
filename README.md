@@ -13,8 +13,6 @@ Transform Filament's default auth pages into stunning, brand-ready experiences w
 - 🌓 **Theme Toggle** - Built-in light/dark/system theme switcher
 - 📍 **Positionable Theme Toggle** - Place theme switcher in any corner
 - ⚡ **Zero Configuration** - Works out of the box with sensible defaults
-- 🧪 **Fully Tested** - 19 comprehensive tests with 75 assertions
-- 🎯 **Type Safe** - No magic strings, fully typed configuration
 
 ## Installation
 
