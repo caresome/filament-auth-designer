@@ -84,7 +84,8 @@ public function panel(Panel $panel): Panel
 ->login(layout: AuthLayout::None)
 ```
 
-![none-layout](https://github.com/user-attachments/assets/2bd34599-2578-474e-a47b-26e13f6b8fbb)
+![none-layout](https://github.com/user-attachments/assets/533a317a-7f39-4858-a643-2ec4332ca6ce)
+
 
 ### 2. Split
 
@@ -98,7 +99,8 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-![split-layout](https://github.com/user-attachments/assets/7e16dbc4-b968-4334-a17b-3a59d1b47135)
+![split-layout](https://github.com/user-attachments/assets/1f0defb2-b3c3-44f0-b8d7-34976ad04e40)
+
 
 ### 3. Overlay
 
@@ -110,7 +112,8 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-![overlay-layout](https://github.com/user-attachments/assets/da60d0d8-bfec-44a4-9299-0978f656ba04)
+![overlay-layout](https://github.com/user-attachments/assets/de07e38d-0914-48e2-b37a-35beef1573c4)
+
 
 ### 4. Top
 
@@ -121,7 +124,8 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-![top-layout](https://github.com/user-attachments/assets/6e5004b2-7433-40b3-ae27-1fb780e14024)
+![top-layout](https://github.com/user-attachments/assets/28ff06e9-d9b5-40a0-9e0a-9817c06496ed)
+
 
 ### 5. Panel
 
@@ -133,7 +137,8 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 )
 ```
 
-![panel-layout](https://github.com/user-attachments/assets/93556a94-d55f-474e-9476-993201521ced)
+![panel-layout](https://github.com/user-attachments/assets/76c02571-725e-40f2-884c-1463a85431de)
+
 
 ## Media Configuration
 
@@ -170,7 +175,8 @@ use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 
 Available positions: `TopRight`, `TopLeft`, `BottomRight`, `BottomLeft`
 
-![theme-position](https://github.com/user-attachments/assets/12d891f8-85fd-4a30-be5f-a986a151f9e4)
+![theme-position](https://github.com/user-attachments/assets/07be8080-9733-49d7-bef7-123be1d98997)
+
 
 ## Configuration Examples
 
