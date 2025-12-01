@@ -5,6 +5,7 @@ namespace Caresome\FilamentAuthDesigner;
 use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
+use Caresome\FilamentAuthDesigner\Pages\Auth\EditProfile;
 use Caresome\FilamentAuthDesigner\Pages\Auth\EmailVerification;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
@@ -24,6 +25,8 @@ class AuthDesignerPlugin implements Plugin
     protected ?string $resetPasswordPageClass = null;
 
     protected ?string $emailVerificationPageClass = null;
+
+    protected ?string $editProfilePageClass = null;
 
     protected bool $showThemeSwitcher = false;
 
@@ -53,6 +56,10 @@ class AuthDesignerPlugin implements Plugin
 
         if ($this->emailVerificationPageClass) {
             $panel->emailVerification($this->emailVerificationPageClass);
+        }
+
+        if ($this->editProfilePageClass) {
+            $panel->profile($this->editProfilePageClass);
         }
     }
 
@@ -119,6 +126,17 @@ class AuthDesignerPlugin implements Plugin
         }
         $this->configureAuthPage('email-verification', $layout, $media, $direction, $blur);
         $this->emailVerificationPageClass = $pageClass;
+
+        return $this;
+    }
+
+    public function editProfile(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0, ?string $pageClass = null): static
+    {
+        if (is_null($pageClass)) {
+            $pageClass = EditProfile::class;
+        }
+        $this->configureAuthPage('profile', $layout, $media, $direction, $blur);
+        $this->editProfilePageClass = $pageClass;
 
         return $this;
     }

@@ -5,6 +5,7 @@ use Caresome\FilamentAuthDesigner\ConfigKeys;
 use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
 use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
+use Caresome\FilamentAuthDesigner\Pages\Auth\EditProfile;
 use Caresome\FilamentAuthDesigner\Pages\Auth\EmailVerification;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
@@ -146,4 +147,8 @@ it('sets correct page classes when configuring auth pages', function () {
     $emailVerificationPageClass = $reflection->getProperty('emailVerificationPageClass');
     $emailVerificationPageClass->setAccessible(true);
     expect($emailVerificationPageClass->getValue($plugin))->toBe(EmailVerification::class);
+
+    $editProfilePageClass = $reflection->getProperty('editProfilePageClass');
+    $editProfilePageClass->setAccessible(true);
+    expect($editProfilePageClass->getValue($plugin))->toBe(EditProfile::class);
 });
