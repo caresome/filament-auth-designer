@@ -73,35 +73,52 @@ class AuthDesignerPlugin implements Plugin
         return filament(app(static::class)->getId());
     }
 
-    public function login(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function login(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0, ?string $pageClass = null): static
     {
+        if (is_null($pageClass)) {
+            $pageClass = Login::class;
+        }
         $this->configureAuthPage('login', $layout, $media, $direction, $blur);
-        $this->loginPageClass = Login::class;
+        $this->loginPageClass = $pageClass;
 
         return $this;
     }
 
-    public function registration(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function registration(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0, ?string $pageClass = null): static
     {
+        if (is_null($pageClass)) {
+            $pageClass = Register::class;
+        }
         $this->configureAuthPage('registration', $layout, $media, $direction, $blur);
-        $this->registerPageClass = Register::class;
+        $this->registerPageClass = $pageClass;
 
         return $this;
     }
 
-    public function passwordReset(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function passwordReset(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0, ?string $pageClass = null, ?string $requestPageClass = null): static
     {
+        if (is_null($pageClass)) {
+            $pageClass = ResetPassword::class;
+        }
+
+        if (is_null($requestPageClass)) {
+            $requestPageClass = RequestPasswordReset::class;
+        }
+
         $this->configureAuthPage('password-reset', $layout, $media, $direction, $blur);
-        $this->requestPasswordResetPageClass = RequestPasswordReset::class;
-        $this->resetPasswordPageClass = ResetPassword::class;
+        $this->requestPasswordResetPageClass = $requestPageClass;
+        $this->resetPasswordPageClass = $pageClass;
 
         return $this;
     }
 
-    public function emailVerification(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
+    public function emailVerification(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0, ?string $pageClass = null): static
     {
+        if (is_null($pageClass)) {
+            $pageClass = EmailVerification::class;
+        }
         $this->configureAuthPage('email-verification', $layout, $media, $direction, $blur);
-        $this->emailVerificationPageClass = EmailVerification::class;
+        $this->emailVerificationPageClass = $pageClass;
 
         return $this;
     }

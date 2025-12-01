@@ -134,7 +134,23 @@ use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
     layout: AuthLayout::Panel,
     media: asset('assets/image.jpg'),
     direction: MediaDirection::Left // or MediaDirection::Right
+    pageClass: CustomLoginPage::class // Optional: Custom page class
 )
+```
+When using a custom page class, make sure to use ```HasAuthDesignerLayout``` and set the ```$layout``` property to ```filament-auth-designer::components.layouts.auth``.
+
+```php
+use Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout;
+use Filament\Auth\Page\Login;
+
+class CustomLoginPage extends Login
+{
+    use HasAuthDesignerLayout;
+
+    protected static string $layout = 'filament-auth-designer::components.layouts.auth';
+    
+    ...
+}
 ```
 
 ![panel-layout](https://github.com/user-attachments/assets/76c02571-725e-40f2-884c-1463a85431de)
