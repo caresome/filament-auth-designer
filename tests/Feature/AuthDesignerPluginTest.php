@@ -1,149 +1,339 @@
 <?php
 
+use Caresome\FilamentAuthDesigner\AuthDesignerConfigRepository;
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
-use Caresome\FilamentAuthDesigner\ConfigKeys;
-use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
-use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
+use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
+use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
 use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
-use Caresome\FilamentAuthDesigner\Pages\Auth\EmailVerification;
-use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
-use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
-use Caresome\FilamentAuthDesigner\Pages\Auth\RequestPasswordReset;
-use Caresome\FilamentAuthDesigner\Pages\Auth\ResetPassword;
 
-it('stores login configuration in container', function () {
-    $plugin = AuthDesignerPlugin::make()
-        ->login(
-            layout: AuthLayout::Overlay,
-            media: '/images/login-bg.jpg',
-            direction: MediaDirection::Left,
-            blur: 10
-        );
-
-    expect(app(ConfigKeys::media('login')))->toBe('/images/login-bg.jpg')
-        ->and(app(ConfigKeys::position('login')))->toBe(AuthLayout::Overlay)
-        ->and(app(ConfigKeys::direction('login')))->toBe(MediaDirection::Left)
-        ->and(app(ConfigKeys::blur('login')))->toBe(10);
+beforeEach(function (): void {
+    app()->forgetInstance(AuthDesignerConfigRepository::class);
+    app()->singleton(AuthDesignerConfigRepository::class);
 });
 
-it('stores registration configuration in container', function () {
+it('stores login configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->registration(
-            layout: AuthLayout::Split,
-            media: '/images/register-bg.jpg',
-            direction: MediaDirection::Right,
-            blur: 0
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Cover)
+            ->media('/images/login-bg.jpg')
+            ->blur(10)
         );
 
-    expect(app(ConfigKeys::media('registration')))->toBe('/images/register-bg.jpg')
-        ->and(app(ConfigKeys::position('registration')))->toBe(AuthLayout::Split)
-        ->and(app(ConfigKeys::direction('registration')))->toBe(MediaDirection::Right)
-        ->and(app(ConfigKeys::blur('registration')))->toBe(0);
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('login');
+
+    expect($config->media)->toBe('/images/login-bg.jpg')
+        ->and($config->position)->toBe(MediaPosition::Cover)
+        ->and($config->blur)->toBe(10);
 });
 
-it('stores password reset configuration in container', function () {
+it('stores registration configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->passwordReset(
-            layout: AuthLayout::Top,
-            media: '/images/reset-bg.jpg',
-            direction: MediaDirection::Left,
-            blur: 5
+        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Right)
+            ->media('/images/register-bg.jpg')
+            ->mediaSize('50%')
         );
 
-    expect(app(ConfigKeys::media('password-reset')))->toBe('/images/reset-bg.jpg')
-        ->and(app(ConfigKeys::position('password-reset')))->toBe(AuthLayout::Top)
-        ->and(app(ConfigKeys::direction('password-reset')))->toBe(MediaDirection::Left)
-        ->and(app(ConfigKeys::blur('password-reset')))->toBe(5);
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('registration');
+
+    expect($config->media)->toBe('/images/register-bg.jpg')
+        ->and($config->position)->toBe(MediaPosition::Right)
+        ->and($config->mediaSize)->toBe('50%');
 });
 
-it('stores email verification configuration in container', function () {
+it('stores password reset configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->emailVerification(
-            layout: AuthLayout::Panel,
-            media: '/images/verify-bg.jpg',
-            direction: MediaDirection::Right,
-            blur: 8
+        ->passwordReset(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Top)
+            ->media('/images/reset-bg.jpg')
+            ->mediaSize('250px')
         );
 
-    expect(app(ConfigKeys::media('email-verification')))->toBe('/images/verify-bg.jpg')
-        ->and(app(ConfigKeys::position('email-verification')))->toBe(AuthLayout::Panel)
-        ->and(app(ConfigKeys::direction('email-verification')))->toBe(MediaDirection::Right)
-        ->and(app(ConfigKeys::blur('email-verification')))->toBe(8);
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('password-reset');
+
+    expect($config->media)->toBe('/images/reset-bg.jpg')
+        ->and($config->position)->toBe(MediaPosition::Top)
+        ->and($config->mediaSize)->toBe('250px');
 });
 
-it('uses default values when parameters are omitted', function () {
+it('stores email verification configuration with closure-based API', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->emailVerification(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Left)
+            ->media('/images/verify-bg.jpg')
+            ->mediaSize('40%')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('email-verification');
+
+    expect($config->media)->toBe('/images/verify-bg.jpg')
+        ->and($config->position)->toBe(MediaPosition::Left)
+        ->and($config->mediaSize)->toBe('40%');
+});
+
+it('uses default values when no closure is provided', function (): void {
     $plugin = AuthDesignerPlugin::make()->login();
 
-    $reflection = new ReflectionClass($plugin);
-    $loginPageClass = $reflection->getProperty('loginPageClass');
-    $loginPageClass->setAccessible(true);
-
-    expect($loginPageClass->getValue($plugin))->toBe(Login::class);
+    expect($plugin->hasLogin())->toBeTrue();
 });
 
-it('enables theme switcher with default position', function () {
+it('enables theme switcher with default position', function (): void {
     $plugin = AuthDesignerPlugin::make()->themeToggle();
 
-    $reflection = new ReflectionClass($plugin);
-    $showThemeSwitcher = $reflection->getProperty('showThemeSwitcher');
-    $showThemeSwitcher->setAccessible(true);
-    $themePosition = $reflection->getProperty('themePosition');
-    $themePosition->setAccessible(true);
-
-    expect($showThemeSwitcher->getValue($plugin))->toBeTrue()
-        ->and($themePosition->getValue($plugin))->toBe(ThemePosition::TopRight);
+    expect($plugin->hasThemeSwitcher())->toBeTrue()
+        ->and($plugin->getThemePosition())->toBe(ThemePosition::TopRight);
 });
 
-it('enables theme switcher with custom position', function () {
+it('enables theme switcher with custom position', function (): void {
     $plugin = AuthDesignerPlugin::make()->themeToggle(ThemePosition::BottomLeft);
 
-    $reflection = new ReflectionClass($plugin);
-    $showThemeSwitcher = $reflection->getProperty('showThemeSwitcher');
-    $showThemeSwitcher->setAccessible(true);
-    $themePosition = $reflection->getProperty('themePosition');
-    $themePosition->setAccessible(true);
-
-    expect($showThemeSwitcher->getValue($plugin))->toBeTrue()
-        ->and($themePosition->getValue($plugin))->toBe(ThemePosition::BottomLeft);
+    expect($plugin->hasThemeSwitcher())->toBeTrue()
+        ->and($plugin->getThemePosition())->toBe(ThemePosition::BottomLeft);
 });
 
-it('allows different configurations for different auth pages', function () {
+it('allows different configurations for different auth pages', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(layout: AuthLayout::Overlay, media: '/login.jpg')
-        ->registration(layout: AuthLayout::Split, media: '/register.jpg');
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Cover)
+            ->media('/login.jpg')
+        )
+        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Left)
+            ->media('/register.jpg')
+        );
 
-    expect(app(ConfigKeys::media('login')))->toBe('/login.jpg')
-        ->and(app(ConfigKeys::position('login')))->toBe(AuthLayout::Overlay)
-        ->and(app(ConfigKeys::media('registration')))->toBe('/register.jpg')
-        ->and(app(ConfigKeys::position('registration')))->toBe(AuthLayout::Split);
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+
+    expect($repository->getConfig('login')->media)->toBe('/login.jpg')
+        ->and($repository->getConfig('login')->position)->toBe(MediaPosition::Cover)
+        ->and($repository->getConfig('registration')->media)->toBe('/register.jpg')
+        ->and($repository->getConfig('registration')->position)->toBe(MediaPosition::Left);
 });
 
-it('sets correct page classes when configuring auth pages', function () {
+it('applies global defaults to all pages', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->defaults(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Cover)
+            ->media('/default-bg.jpg')
+            ->blur(5)
+        )
+        ->login()
+        ->registration();
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+
+    expect($repository->getConfig('login')->media)->toBe('/default-bg.jpg')
+        ->and($repository->getConfig('login')->position)->toBe(MediaPosition::Cover)
+        ->and($repository->getConfig('login')->blur)->toBe(5)
+        ->and($repository->getConfig('registration')->media)->toBe('/default-bg.jpg')
+        ->and($repository->getConfig('registration')->position)->toBe(MediaPosition::Cover);
+});
+
+it('allows per-page overrides of global defaults', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->defaults(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Cover)
+            ->media('/default-bg.jpg')
+        )
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Left)
+            ->media('/login-bg.jpg')
+        )
+        ->registration();
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+
+    expect($repository->getConfig('login')->media)->toBe('/login-bg.jpg')
+        ->and($repository->getConfig('login')->position)->toBe(MediaPosition::Left)
+        ->and($repository->getConfig('registration')->media)->toBe('/default-bg.jpg')
+        ->and($repository->getConfig('registration')->position)->toBe(MediaPosition::Cover);
+});
+
+it('supports custom page classes via usingPage', function (): void {
+    $customPageClass = 'App\\Filament\\Pages\\Auth\\CustomLogin';
+
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Cover)
+            ->usingPage($customPageClass)
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $pageConfig = $repository->getPageConfig('login');
+
+    expect($pageConfig->getPageClass())->toBe($customPageClass)
+        ->and($pageConfig->hasCustomPage())->toBeTrue();
+});
+
+it('supports bottom position', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->mediaPosition(MediaPosition::Bottom)
+            ->media('/bottom-bg.jpg')
+            ->mediaSize('200px')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('login');
+
+    expect($config->position)->toBe(MediaPosition::Bottom)
+        ->and($config->mediaSize)->toBe('200px');
+});
+
+it('stores theme switcher settings in repository', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->login()
-        ->registration()
-        ->passwordReset()
-        ->emailVerification();
+        ->themeToggle(ThemePosition::BottomRight);
 
-    $reflection = new ReflectionClass($plugin);
+    $plugin->configureRepository();
 
-    $loginPageClass = $reflection->getProperty('loginPageClass');
-    $loginPageClass->setAccessible(true);
-    expect($loginPageClass->getValue($plugin))->toBe(Login::class);
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('login');
 
-    $registerPageClass = $reflection->getProperty('registerPageClass');
-    $registerPageClass->setAccessible(true);
-    expect($registerPageClass->getValue($plugin))->toBe(Register::class);
+    expect($config->showThemeSwitcher)->toBeTrue()
+        ->and($config->themePosition)->toBe(ThemePosition::BottomRight);
+});
 
-    $requestPasswordResetPageClass = $reflection->getProperty('requestPasswordResetPageClass');
-    $requestPasswordResetPageClass->setAccessible(true);
-    expect($requestPasswordResetPageClass->getValue($plugin))->toBe(RequestPasswordReset::class);
+it('registers render hooks on plugin', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->renderHook('auth-designer::test.hook', fn (): string => 'test content');
 
-    $resetPasswordPageClass = $reflection->getProperty('resetPasswordPageClass');
-    $resetPasswordPageClass->setAccessible(true);
-    expect($resetPasswordPageClass->getValue($plugin))->toBe(ResetPassword::class);
+    expect($plugin->getRenderHooks())->toHaveKey('auth-designer::test.hook')
+        ->and($plugin->getRenderHooks()['auth-designer::test.hook'])->toHaveCount(1);
+});
 
-    $emailVerificationPageClass = $reflection->getProperty('emailVerificationPageClass');
-    $emailVerificationPageClass->setAccessible(true);
-    expect($emailVerificationPageClass->getValue($plugin))->toBe(EmailVerification::class);
+it('allows multiple hooks for same position', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->renderHook('auth-designer::test.hook', fn (): string => 'first')
+        ->renderHook('auth-designer::test.hook', fn (): string => 'second');
+
+    expect($plugin->getRenderHooks()['auth-designer::test.hook'])->toHaveCount(2);
+});
+
+it('chains render hooks with other plugin methods', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config->mediaPosition(MediaPosition::Cover))
+        ->renderHook('auth-designer::card.before', fn (): string => 'branding')
+        ->themeToggle();
+
+    expect($plugin->hasLogin())->toBeTrue()
+        ->and($plugin->hasThemeSwitcher())->toBeTrue()
+        ->and($plugin->getRenderHooks())->toHaveKey('auth-designer::card.before');
+});
+
+it('defaults to cover position when media is set without position', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->media('/images/bg.jpg')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('login');
+
+    expect($config->position)->toBe(MediaPosition::Cover);
+});
+
+it('has null position when no media is set', function (): void {
+    $plugin = AuthDesignerPlugin::make()->login();
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('login');
+
+    expect($config->position)->toBeNull();
+});
+
+it('supports all media positions', function (): void {
+    $positions = [
+        MediaPosition::Left,
+        MediaPosition::Right,
+        MediaPosition::Top,
+        MediaPosition::Bottom,
+        MediaPosition::Cover,
+    ];
+
+    foreach ($positions as $position) {
+        app()->forgetInstance(AuthDesignerConfigRepository::class);
+        app()->singleton(AuthDesignerConfigRepository::class);
+
+        $plugin = AuthDesignerPlugin::make()
+            ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+                ->media('/bg.jpg')
+                ->mediaPosition($position)
+            );
+
+        $plugin->configureRepository();
+
+        $repository = app(AuthDesignerConfigRepository::class);
+        $config = $repository->getConfig('login');
+
+        expect($config->position)->toBe($position);
+    }
+});
+
+it('supports per-page render hooks', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->media('/bg.jpg')
+            ->mediaPosition(MediaPosition::Left)
+            ->renderHook('auth-designer::media.overlay', fn (): string => '<div>Overlay Content</div>')
+            ->renderHook('auth-designer::card.before', fn (): string => '<div>Branding</div>')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $config = $repository->getConfig('login');
+
+    expect($config->hasRenderHook('auth-designer::media.overlay'))->toBeTrue()
+        ->and($config->hasRenderHook('auth-designer::card.before'))->toBeTrue()
+        ->and($config->hasRenderHook('auth-designer::non-existent'))->toBeFalse()
+        ->and($config->renderHook('auth-designer::media.overlay'))->toBe('<div>Overlay Content</div>')
+        ->and($config->renderHook('auth-designer::card.before'))->toBe('<div>Branding</div>');
+});
+
+it('per-page render hooks are isolated between pages', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->media('/bg.jpg')
+            ->renderHook('auth-designer::media.overlay', fn (): string => 'Login Overlay')
+        )
+        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->media('/bg.jpg')
+            ->renderHook('auth-designer::media.overlay', fn (): string => 'Registration Overlay')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $loginConfig = $repository->getConfig('login');
+    $registrationConfig = $repository->getConfig('registration');
+
+    expect($loginConfig->renderHook('auth-designer::media.overlay'))->toBe('Login Overlay')
+        ->and($registrationConfig->renderHook('auth-designer::media.overlay'))->toBe('Registration Overlay');
 });

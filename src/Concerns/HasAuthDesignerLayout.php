@@ -2,7 +2,7 @@
 
 namespace Caresome\FilamentAuthDesigner\Concerns;
 
-use Caresome\FilamentAuthDesigner\ConfigKeys;
+use Caresome\FilamentAuthDesigner\AuthDesignerConfigRepository;
 use Illuminate\Support\Facades\View;
 
 trait HasAuthDesignerLayout
@@ -13,22 +13,17 @@ trait HasAuthDesignerLayout
             parent::boot();
         }
 
+        static::$layout = 'filament-auth-designer::components.layouts.auth';
+
         $this->shareAuthDesignerConfig();
     }
 
     protected function shareAuthDesignerConfig(): void
     {
-        $pageKey = $this->getAuthDesignerPageKey();
+        $repository = app(AuthDesignerConfigRepository::class);
+        $config = $repository->getConfig($this->getAuthDesignerPageKey());
 
-        View::share('authDesignerMedia', $this->getConfig(ConfigKeys::media($pageKey)));
-        View::share('authDesignerPosition', $this->getConfig(ConfigKeys::position($pageKey)));
-        View::share('authDesignerDirection', $this->getConfig(ConfigKeys::direction($pageKey)));
-        View::share('authDesignerBlur', $this->getConfig(ConfigKeys::blur($pageKey), 0));
-    }
-
-    private function getConfig(string $key, mixed $default = null): mixed
-    {
-        return app()->has($key) ? app($key) : $default;
+        View::share('authDesignerConfig', $config);
     }
 
     abstract protected function getAuthDesignerPageKey(): string;
