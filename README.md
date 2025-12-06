@@ -385,6 +385,12 @@ AuthDesignerPlugin::make()
 
 ### Available Hook Positions
 
+> **Note:** `CardBefore` and `CardAfter` are specific to the **Cover** layout where the form is inside a card.
+> For other layouts (Left, Right, etc.), where the form is not inside a card, use Filament's native render hooks:
+>
+> -   `PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE`
+> -   `PanelsRenderHook::AUTH_LOGIN_FORM_AFTER`
+
 | Hook            | Description                   | Available In                       |
 | --------------- | ----------------------------- | ---------------------------------- |
 | `ContentBefore` | Before the main content area  | All layouts                        |
