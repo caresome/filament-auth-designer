@@ -8,46 +8,45 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 ![Thumbnail](https://github.com/user-attachments/assets/79be5e83-2053-4708-9fc0-08d19edb977b)
 
-
 ## Table of Contents
 
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Media Positioning](#media-positioning)
-- [Global Defaults](#global-defaults)
-- [Custom Page Classes](#custom-page-classes)
-- [Media Configuration](#media-configuration)
-- [Theme Toggle](#theme-toggle)
-- [Configuration Examples](#configuration-examples)
-- [Render Hooks](#render-hooks)
-- [Upgrading from v2.0](#upgrading-from-v20)
-- [Troubleshooting](#troubleshooting)
-- [Testing](#testing)
-- [License](#license)
+-   [Features](#features)
+-   [Requirements](#requirements)
+-   [Installation](#installation)
+-   [Quick Start](#quick-start)
+-   [Media Positioning](#media-positioning)
+-   [Global Defaults](#global-defaults)
+-   [Custom Page Classes](#custom-page-classes)
+-   [Media Configuration](#media-configuration)
+-   [Theme Toggle](#theme-toggle)
+-   [Configuration Examples](#configuration-examples)
+-   [Render Hooks](#render-hooks)
+-   [Upgrading from v2.0](#upgrading-from-v20)
+-   [Troubleshooting](#troubleshooting)
+-   [Testing](#testing)
+-   [License](#license)
 
 ## Features
 
-- 🎨 **Flexible Media Positioning** - Place media on any side (Left, Right, Top, Bottom) or as a fullscreen cover
-- 📐 **Custom Sizing** - Set media size with any CSS unit (%, px, vh, etc.)
-- 🖼️ **Media Backgrounds** - Support for both images and videos with auto-detection
-- 🌫️ **Blur Effects** - Configurable blur intensity (0-20) for Cover position
-- 🌓 **Theme Toggle** - Built-in light/dark/system theme switcher
-- 📍 **Positionable Theme Toggle** - Place theme switcher in any corner
-- 🔧 **Global Defaults** - Set defaults that apply to all auth pages
-- 🎯 **Per-Page Overrides** - Override defaults for specific pages
-- 🔌 **Custom Page Classes** - Use your own page classes with the plugin's layouts
-- 🪝 **Render Hooks** - Inject custom content at specific positions in layouts
-- ♿ **Accessibility** - Alt text support for media
-- 🚪 **Email Verification Logout** - Easy account switching from verification page
-- ⚡ **Zero Configuration** - Works out of the box with sensible defaults
+-   🎨 **Flexible Media Positioning** - Place media on any side (Left, Right, Top, Bottom) or as a fullscreen cover
+-   📐 **Custom Sizing** - Set media size with any CSS unit (%, px, vh, etc.)
+-   🖼️ **Media Backgrounds** - Support for both images and videos with auto-detection
+-   🌫️ **Blur Effects** - Configurable blur intensity (0-20) for Cover position
+-   🌓 **Theme Toggle** - Built-in light/dark/system theme switcher
+-   📍 **Positionable Theme Toggle** - Place theme switcher in any corner
+-   🔧 **Global Defaults** - Set defaults that apply to all auth pages
+-   🎯 **Per-Page Overrides** - Override defaults for specific pages
+-   🔌 **Custom Page Classes** - Use your own page classes with the plugin's layouts
+-   🪝 **Render Hooks** - Inject custom content at specific positions in layouts
+-   ♿ **Accessibility** - Alt text support for media
+-   🚪 **Email Verification Logout** - Easy account switching from verification page
+-   ⚡ **Zero Configuration** - Works out of the box with sensible defaults
 
 ## Requirements
 
-- PHP 8.2+
-- Laravel 11.0 or 12.0
-- Filament 4.0
+-   PHP 8.2+
+-   Laravel 11.0 or 12.0
+-   Filament 4.0
 
 ## Installation
 
@@ -82,19 +81,19 @@ public function panel(Panel $panel): Panel
 
 Use `MediaPosition` to control where your media appears:
 
-| Position | Description | Size Applied As |
-|----------|-------------|-----------------|
-| **Left** | Media on left, form on right | Width |
-| **Right** | Media on right, form on left | Width |
-| **Top** | Media at top, form below | Height |
-| **Bottom** | Media at bottom, form above | Height |
-| **Cover** | Fullscreen background with centered form | Ignored |
+| Position   | Description                              | Size Applied As |
+| ---------- | ---------------------------------------- | --------------- |
+| **Left**   | Media on left, form on right             | Width           |
+| **Right**  | Media on right, form on left             | Width           |
+| **Top**    | Media at top, form below                 | Height          |
+| **Bottom** | Media at bottom, form above              | Height          |
+| **Cover**  | Fullscreen background with centered form | Ignored         |
 
 ### Default Behavior
 
-- **No media** → Minimal centered form
-- **Media without position** → Defaults to `Cover`
-- **Cover position** → `mediaSize()` is ignored (fullscreen)
+-   **No media** → Minimal centered form
+-   **Media without position** → Defaults to `Cover`
+-   **Cover position** → `mediaSize()` is ignored (fullscreen)
 
 ### Position Examples
 
@@ -160,7 +159,6 @@ Use any valid CSS unit for `mediaSize()`:
 ->mediaSize('20rem')   // Rem units
 ```
 
-
 ## Global Defaults
 
 Set defaults that apply to all auth pages, then override specific pages as needed:
@@ -181,7 +179,6 @@ AuthDesignerPlugin::make()
     ->emailVerification() // Uses defaults
     ->themeToggle()
 ```
-
 
 ## Custom Page Classes
 
@@ -246,7 +243,6 @@ AuthDesignerPlugin::make()
     )
 ```
 
-
 ## Media Configuration
 
 ### Images
@@ -281,22 +277,19 @@ https://github.com/user-attachments/assets/154006f8-91b6-4e6e-9ed9-854442fe6a49
 )
 ```
 
-
 ## Theme Toggle
 
 Enable light/dark/system theme switcher:
 
 ```php
-use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
-
-->themeToggle() // Default: TopRight
-->themeToggle(ThemePosition::BottomLeft) // Custom position
+->themeToggle() // Default: Top Right (1.5rem)
+->themeToggle(bottom: '2rem', right: '2rem') // Custom position
+->themeToggle(top: '1rem', left: '1rem') // Top Left
 ```
 
-Available positions: `TopRight`, `TopLeft`, `BottomRight`, `BottomLeft`
+You can position the theme switcher anywhere on the screen by passing `top`, `bottom`, `left`, or `right` CSS values. Defaults to `auto` if not specified.
 
 ![theme-position](https://github.com/user-attachments/assets/07be8080-9733-49d7-bef7-123be1d98997)
-
 
 ## Configuration Examples
 
@@ -313,7 +306,7 @@ AuthDesignerPlugin::make()
     ->registration()
     ->passwordReset()
     ->emailVerification()
-    ->themeToggle(ThemePosition::TopRight)
+    ->themeToggle()
 ```
 
 ### Advanced - Different Layout Per Page
@@ -341,30 +334,29 @@ AuthDesignerPlugin::make()
         ->mediaSize('200px')
     )
     ->emailVerification() // Uses defaults
-    ->themeToggle(ThemePosition::BottomRight)
+    ->themeToggle(bottom: '2rem', right: '2rem')
 ```
 
 ### Available Methods
 
-| Method | Description |
-|--------|-------------|
-| `->defaults()` | Set global defaults for all pages |
-| `->login()` | Configure login page |
-| `->registration()` | Configure registration page |
-| `->passwordReset()` | Configure password reset pages |
-| `->emailVerification()` | Configure email verification page |
-| `->themeToggle()` | Enable theme switcher (applies to all pages) |
+| Method                  | Description                                                 |
+| ----------------------- | ----------------------------------------------------------- |
+| `->defaults()`          | Set global defaults for all pages                           |
+| `->login()`             | Configure login page                                        |
+| `->registration()`      | Configure registration page                                 |
+| `->passwordReset()`     | Configure password reset pages                              |
+| `->emailVerification()` | Configure email verification page                           |
+| `->themeToggle()`       | Enable theme switcher (defaults to top-right, customizable) |
 
 ### Configuration Options
 
-| Option | Description | Notes |
-|--------|-------------|-------|
-| `->media()` | Set background image/video URL | First param is URL, second is alt text |
-| `->mediaPosition()` | Set media position | Left, Right, Top, Bottom, Cover |
-| `->mediaSize()` | Set media size | px/vh/rem; ignored for Cover |
-| `->blur()` | Blur intensity (0-20) | Only applies to Cover position |
-| `->usingPage()` | Use custom page class | For custom auth pages |
-
+| Option              | Description                    | Notes                                  |
+| ------------------- | ------------------------------ | -------------------------------------- |
+| `->media()`         | Set background image/video URL | First param is URL, second is alt text |
+| `->mediaPosition()` | Set media position             | Left, Right, Top, Bottom, Cover        |
+| `->mediaSize()`     | Set media size                 | px/vh/rem; ignored for Cover           |
+| `->blur()`          | Blur intensity (0-20)          | Only applies to Cover position         |
+| `->usingPage()`     | Use custom page class          | For custom auth pages                  |
 
 ## Render Hooks
 
@@ -385,46 +377,50 @@ AuthDesignerPlugin::make()
 
 ### Available Hook Positions
 
-| Hook | Description | Available In |
-|------|-------------|--------------|
-| `ContentBefore` | Before the main content area | All layouts |
-| `ContentAfter` | After the main content area | All layouts |
-| `MediaBefore` | Above the media (image/video) | Left, Right, Top, Bottom positions |
-| `MediaAfter` | Below the media | Left, Right, Top, Bottom positions |
-| `CardBefore` | Above the login card | Cover position only |
-| `CardAfter` | Below the login card | Cover position only |
+| Hook            | Description                   | Available In                       |
+| --------------- | ----------------------------- | ---------------------------------- |
+| `ContentBefore` | Before the main content area  | All layouts                        |
+| `ContentAfter`  | After the main content area   | All layouts                        |
+| `MediaBefore`   | Above the media (image/video) | Left, Right, Top, Bottom positions |
+| `MediaAfter`    | Below the media               | Left, Right, Top, Bottom positions |
+| `CardBefore`    | Above the login card          | Cover position only                |
+| `CardAfter`     | Below the login card          | Cover position only                |
 
 ### Hook Examples
 
 **Add branding above the login card (Cover position):**
+
 ```php
 ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.branding'))
 ```
 
 **Add a footer with terms/privacy links:**
+
 ```php
 ->renderHook(AuthDesignerRenderHook::ContentAfter, fn () => view('auth.footer'))
 ```
 
 **Add company logo overlay on media:**
+
 ```php
 ->renderHook(AuthDesignerRenderHook::MediaBefore, fn () => view('auth.logo-overlay'))
 ```
 
 **Multiple hooks at the same position:**
+
 ```php
 ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.logo'))
 ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.welcome-message'))
 ```
 
-
-## Upgrading from v2.0
+## Upgrading from v1.x
 
 ### Breaking Changes
 
-v2.1 replaces the layout-based system with a simpler position + size system:
+v2.0 replaces the layout-based system with a simpler position + size system:
 
-**Before (v2.0):**
+**Before (v1.x):**
+
 ```php
 use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
 use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
@@ -442,7 +438,8 @@ AuthDesignerPlugin::make()
     )
 ```
 
-**After (v2.1):**
+**After (v2.0):**
+
 ```php
 use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
 
@@ -461,55 +458,61 @@ AuthDesignerPlugin::make()
 
 ### Migration Guide
 
-| Old (v2.0) | New (v2.1) |
-|------------|------------|
-| `AuthLayout::None` | No media set |
-| `AuthLayout::Split` + `MediaDirection::Left` | `MediaPosition::Left` + `mediaSize('50%')` |
-| `AuthLayout::Split` + `MediaDirection::Right` | `MediaPosition::Right` + `mediaSize('50%')` |
-| `AuthLayout::Panel` | `MediaPosition::Left/Right` + `mediaSize('35%')` |
-| `AuthLayout::Top` | `MediaPosition::Top` + `mediaSize('250px')` |
-| `AuthLayout::Stacked` | `MediaPosition::Top` + `mediaSize('40vh')` |
-| `AuthLayout::Overlay` | `MediaPosition::Cover` |
+| Old (v1.x)                                    | New (v2.0)                                       |
+| --------------------------------------------- | ------------------------------------------------ |
+| `AuthLayout::None`                            | No media set                                     |
+| `AuthLayout::Split` + `MediaDirection::Left`  | `MediaPosition::Left` + `mediaSize('50%')`       |
+| `AuthLayout::Split` + `MediaDirection::Right` | `MediaPosition::Right` + `mediaSize('50%')`      |
+| `AuthLayout::Panel`                           | `MediaPosition::Left/Right` + `mediaSize('35%')` |
+| `AuthLayout::Top`                             | `MediaPosition::Top` + `mediaSize('250px')`      |
+| `AuthLayout::Stacked`                         | `MediaPosition::Top` + `mediaSize('40vh')`       |
+| `AuthLayout::Overlay`                         | `MediaPosition::Cover`                           |
 
 ### Removed
 
-- `AuthLayout` enum (replaced by `MediaPosition`)
-- `MediaDirection` enum (merged into `MediaPosition`)
-- `->layout()` method (use `->mediaPosition()`)
-- `->direction()` method (use `->mediaPosition()`)
-
+-   `AuthLayout` enum (replaced by `MediaPosition`)
+-   `MediaDirection` enum (merged into `MediaPosition`)
+-   `->layout()` method (use `->mediaPosition()`)
+-   `ThemePosition` enum (replaced by CSS positioning arguments)
+-   `->themeToggle()` (now accepts `top`, `bottom`, `left`, `right`)
 
 ## Troubleshooting
 
 **Images not displaying:**
-- Verify asset path: `asset('path/to/image.jpg')`
-- Ensure files are in `public/` directory
-- Clear cache: `php artisan cache:clear`
-- Check browser console for 404 errors
+
+-   Verify asset path: `asset('path/to/image.jpg')`
+-   Ensure files are in `public/` directory
+-   Clear cache: `php artisan cache:clear`
+-   Check browser console for 404 errors
 
 **Layout not applying:**
-- Clear view cache: `php artisan view:clear`
-- Verify enum usage: `MediaPosition::Cover` (not string)
-- Check plugin is registered in panel provider
+
+-   Clear view cache: `php artisan view:clear`
+-   Verify enum usage: `MediaPosition::Cover` (not string)
+-   Check plugin is registered in panel provider
 
 **Videos not auto-playing:**
-- Ensure format is supported (mp4, webm, mov, ogg)
-- Check browser autoplay policies
-- Test in different browsers
+
+-   Ensure format is supported (mp4, webm, mov, ogg)
+-   Check browser autoplay policies
+-   Test in different browsers
 
 **Blur effect not working:**
-- Only works with `MediaPosition::Cover`
-- Value must be between 0-20
-- Some older browsers may not support backdrop-filter
+
+-   Only works with `MediaPosition::Cover`
+-   Value must be between 0-20
+-   Some older browsers may not support backdrop-filter
 
 **Custom page not using layout:**
-- Ensure your custom page uses `HasAuthDesignerLayout` trait
-- Or extend the plugin's page class
-- Verify you're using `->usingPage()` in the config
+
+-   Ensure your custom page uses `HasAuthDesignerLayout` trait
+-   Or extend the plugin's page class
+-   Verify you're using `->usingPage()` in the config
 
 **Media size not applying:**
-- `mediaSize()` is ignored for `Cover` position
-- Ensure you're using a valid CSS unit
+
+-   `mediaSize()` is ignored for `Cover` position
+-   Ensure you're using a valid CSS unit
 
 ## Testing
 

@@ -4,7 +4,6 @@ use Caresome\FilamentAuthDesigner\AuthDesignerConfigRepository;
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
 use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
 use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
-use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 
 beforeEach(function (): void {
     app()->forgetInstance(AuthDesignerConfigRepository::class);
@@ -13,7 +12,7 @@ beforeEach(function (): void {
 
 it('stores login configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/images/login-bg.jpg')
             ->blur(10)
@@ -31,7 +30,7 @@ it('stores login configuration with closure-based API', function (): void {
 
 it('stores registration configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Right)
             ->media('/images/register-bg.jpg')
             ->mediaSize('50%')
@@ -49,7 +48,7 @@ it('stores registration configuration with closure-based API', function (): void
 
 it('stores password reset configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->passwordReset(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->passwordReset(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Top)
             ->media('/images/reset-bg.jpg')
             ->mediaSize('250px')
@@ -67,7 +66,7 @@ it('stores password reset configuration with closure-based API', function (): vo
 
 it('stores email verification configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->emailVerification(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->emailVerification(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Left)
             ->media('/images/verify-bg.jpg')
             ->mediaSize('40%')
@@ -93,23 +92,23 @@ it('enables theme switcher with default position', function (): void {
     $plugin = AuthDesignerPlugin::make()->themeToggle();
 
     expect($plugin->hasThemeSwitcher())->toBeTrue()
-        ->and($plugin->getThemePosition())->toBe(ThemePosition::TopRight);
+        ->and($plugin->getThemePosition())->toBe(['top' => '1.5rem', 'right' => '1.5rem', 'bottom' => 'auto', 'left' => 'auto']);
 });
 
 it('enables theme switcher with custom position', function (): void {
-    $plugin = AuthDesignerPlugin::make()->themeToggle(ThemePosition::BottomLeft);
+    $plugin = AuthDesignerPlugin::make()->themeToggle(bottom: '1.5rem', left: '1.5rem');
 
     expect($plugin->hasThemeSwitcher())->toBeTrue()
-        ->and($plugin->getThemePosition())->toBe(ThemePosition::BottomLeft);
+        ->and($plugin->getThemePosition())->toBe(['top' => 'auto', 'right' => 'auto', 'bottom' => '1.5rem', 'left' => '1.5rem']);
 });
 
 it('allows different configurations for different auth pages', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/login.jpg')
         )
-        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Left)
             ->media('/register.jpg')
         );
@@ -126,7 +125,7 @@ it('allows different configurations for different auth pages', function (): void
 
 it('applies global defaults to all pages', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->defaults(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->defaults(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/default-bg.jpg')
             ->blur(5)
@@ -147,11 +146,11 @@ it('applies global defaults to all pages', function (): void {
 
 it('allows per-page overrides of global defaults', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->defaults(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->defaults(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/default-bg.jpg')
         )
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Left)
             ->media('/login-bg.jpg')
         )
@@ -171,7 +170,7 @@ it('supports custom page classes via usingPage', function (): void {
     $customPageClass = 'App\\Filament\\Pages\\Auth\\CustomLogin';
 
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->usingPage($customPageClass)
         );
@@ -187,7 +186,7 @@ it('supports custom page classes via usingPage', function (): void {
 
 it('supports bottom position', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Bottom)
             ->media('/bottom-bg.jpg')
             ->mediaSize('200px')
@@ -205,7 +204,7 @@ it('supports bottom position', function (): void {
 it('stores theme switcher settings in repository', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->login()
-        ->themeToggle(ThemePosition::BottomRight);
+        ->themeToggle(right: '1.5rem', bottom: '1.5rem');
 
     $plugin->configureRepository();
 
@@ -213,7 +212,7 @@ it('stores theme switcher settings in repository', function (): void {
     $config = $repository->getConfig('login');
 
     expect($config->showThemeSwitcher)->toBeTrue()
-        ->and($config->themePosition)->toBe(ThemePosition::BottomRight);
+        ->and($config->themePosition)->toBe(['top' => 'auto', 'right' => '1.5rem', 'bottom' => '1.5rem', 'left' => 'auto']);
 });
 
 it('registers render hooks on plugin', function (): void {
@@ -234,7 +233,7 @@ it('allows multiple hooks for same position', function (): void {
 
 it('chains render hooks with other plugin methods', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config->mediaPosition(MediaPosition::Cover))
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config->mediaPosition(MediaPosition::Cover))
         ->renderHook('auth-designer::card.before', fn (): string => 'branding')
         ->themeToggle();
 
@@ -245,7 +244,7 @@ it('chains render hooks with other plugin methods', function (): void {
 
 it('defaults to cover position when media is set without position', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->media('/images/bg.jpg')
         );
 
@@ -282,7 +281,7 @@ it('supports all media positions', function (): void {
         app()->singleton(AuthDesignerConfigRepository::class);
 
         $plugin = AuthDesignerPlugin::make()
-            ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+            ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
                 ->media('/bg.jpg')
                 ->mediaPosition($position)
             );
@@ -298,7 +297,7 @@ it('supports all media positions', function (): void {
 
 it('supports per-page render hooks', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->media('/bg.jpg')
             ->mediaPosition(MediaPosition::Left)
             ->renderHook('auth-designer::media.overlay', fn (): string => '<div>Overlay Content</div>')
@@ -319,11 +318,11 @@ it('supports per-page render hooks', function (): void {
 
 it('per-page render hooks are isolated between pages', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->media('/bg.jpg')
             ->renderHook('auth-designer::media.overlay', fn (): string => 'Login Overlay')
         )
-        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->media('/bg.jpg')
             ->renderHook('auth-designer::media.overlay', fn (): string => 'Registration Overlay')
         );

@@ -2,18 +2,33 @@
 
 namespace Caresome\FilamentAuthDesigner\Concerns;
 
-use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
-
 trait HasThemeSwitcher
 {
     protected bool $showThemeSwitcher = false;
 
-    protected ThemePosition $themePosition = ThemePosition::TopRight;
+    protected array $themePosition = [
+        'top' => '1.5rem',
+        'right' => '1.5rem',
+        'bottom' => 'auto',
+        'left' => 'auto',
+    ];
 
-    public function themeToggle(?ThemePosition $position = null): static
+    public function themeToggle(?string $top = null, ?string $right = null, ?string $bottom = null, ?string $left = null): static
     {
         $this->showThemeSwitcher = true;
-        $this->themePosition = $position ?? ThemePosition::TopRight;
+
+        if ($top === null && $right === null && $bottom === null && $left === null) {
+            $this->themePosition = ['top' => '1.5rem', 'right' => '1.5rem', 'bottom' => 'auto', 'left' => 'auto'];
+
+            return $this;
+        }
+
+        $this->themePosition = [
+            'top' => $top ?? 'auto',
+            'right' => $right ?? 'auto',
+            'bottom' => $bottom ?? 'auto',
+            'left' => $left ?? 'auto',
+        ];
 
         return $this;
     }
@@ -23,7 +38,7 @@ trait HasThemeSwitcher
         return $this->showThemeSwitcher;
     }
 
-    public function getThemePosition(): ThemePosition
+    public function getThemePosition(): array
     {
         return $this->themePosition;
     }

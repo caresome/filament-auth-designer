@@ -4,7 +4,6 @@ namespace Caresome\FilamentAuthDesigner;
 
 use Caresome\FilamentAuthDesigner\Data\AuthDesignerConfig;
 use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
-use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 
 class AuthDesignerConfigRepository
 {
@@ -14,7 +13,12 @@ class AuthDesignerConfigRepository
 
     protected bool $showThemeSwitcher = false;
 
-    protected ThemePosition $themePosition = ThemePosition::TopRight;
+    protected array $themePosition = [
+        'top' => '1.5rem',
+        'right' => '1.5rem',
+        'bottom' => 'auto',
+        'left' => 'auto',
+    ];
 
     public function setDefaults(AuthPageConfig $config): void
     {
@@ -41,7 +45,7 @@ class AuthDesignerConfigRepository
         return isset($this->pageConfigs[$page]);
     }
 
-    public function setThemeSwitcher(bool $enabled, ThemePosition $position): void
+    public function setThemeSwitcher(bool $enabled, array $position): void
     {
         $this->showThemeSwitcher = $enabled;
         $this->themePosition = $position;
@@ -62,7 +66,7 @@ class AuthDesignerConfigRepository
     {
         $pageConfig = $this->pageConfigs[$page] ?? new AuthPageConfig;
 
-        if ($this->defaults instanceof \Caresome\FilamentAuthDesigner\Data\AuthPageConfig) {
+        if ($this->defaults instanceof AuthPageConfig) {
             return $pageConfig->mergeWith($this->defaults);
         }
 

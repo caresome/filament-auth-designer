@@ -221,22 +221,9 @@
     border: 1px solid var(--gray-800);
 }
 
-.fi-auth-theme-switcher-wrapper.fi-position-top-right {
-    top: 1.5rem;
-    right: 1.5rem;
-}
-
-.fi-auth-theme-switcher-wrapper.fi-position-top-left {
-    top: 1.5rem;
-    left: 1.5rem;
-}
-
-.fi-auth-theme-switcher-wrapper.fi-position-bottom-right {
-    bottom: 1.5rem;
-    right: 1.5rem;
-}
-
-.fi-auth-theme-switcher-wrapper.fi-position-bottom-left {
-    bottom: 1.5rem;
-    left: 1.5rem;
+.fi-auth-theme-switcher-wrapper {
+    top: var(--ad-theme-switcher-top, auto);
+    right: var(--ad-theme-switcher-right, auto);
+    bottom: var(--ad-theme-switcher-bottom, auto);
+    left: var(--ad-theme-switcher-left, auto);
 }

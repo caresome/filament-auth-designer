@@ -1,25 +1,24 @@
-@props([
-    'position',
-])
+@props(['position'])
 
 @php
-    use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
     use Filament\Facades\Filament;
 
-    $positionClass = match($position) {
-        ThemePosition::TopRight => 'fi-position-top-right',
-        ThemePosition::TopLeft => 'fi-position-top-left',
-        ThemePosition::BottomRight => 'fi-position-bottom-right',
-        ThemePosition::BottomLeft => 'fi-position-bottom-left',
-        default => 'fi-position-top-right',
-    };
+    $styles = '';
+
+    if (is_array($position)) {
+        $styles = 'style="';
+        foreach ($position as $key => $value) {
+            $styles .= "--ad-theme-switcher-{$key}: {$value}; ";
+        }
+        $styles .= '"';
+    }
 
     $hasDarkMode = Filament::hasDarkMode();
     $hasDarkModeForced = Filament::hasDarkModeForced();
 @endphp
 
-@if($hasDarkMode && !$hasDarkModeForced)
-    <div class="fi-auth-theme-switcher-wrapper {{ $positionClass }}">
+@if ($hasDarkMode && !$hasDarkModeForced)
+    <div class="fi-auth-theme-switcher-wrapper" {!! $styles !!}>
         <x-filament-panels::theme-switcher />
     </div>
 @endif

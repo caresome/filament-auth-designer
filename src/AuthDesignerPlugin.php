@@ -6,6 +6,7 @@ use Caresome\FilamentAuthDesigner\Concerns\HasDefaults;
 use Caresome\FilamentAuthDesigner\Concerns\HasPages;
 use Caresome\FilamentAuthDesigner\Concerns\HasRenderHooks;
 use Caresome\FilamentAuthDesigner\Concerns\HasThemeSwitcher;
+use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Facades\FilamentView;
@@ -64,7 +65,7 @@ class AuthDesignerPlugin implements Plugin
         $repository = app(AuthDesignerConfigRepository::class);
 
         $defaults = $this->buildDefaultsConfig();
-        if ($defaults instanceof \Caresome\FilamentAuthDesigner\Data\AuthPageConfig) {
+        if ($defaults instanceof AuthPageConfig) {
             $repository->setDefaults($defaults);
         }
 

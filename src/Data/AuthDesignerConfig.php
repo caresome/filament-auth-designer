@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Caresome\FilamentAuthDesigner\Data;
 
 use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
-use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
 use Caresome\FilamentAuthDesigner\Support\MediaDetector;
 
 final readonly class AuthDesignerConfig
@@ -19,7 +18,7 @@ final readonly class AuthDesignerConfig
         public int $blur,
         public ?string $mediaAlt,
         public bool $showThemeSwitcher,
-        public ThemePosition $themePosition,
+        public array $themePosition,
         public bool $isVideo = false,
         public ?string $mediaMimeType = null,
         public array $renderHooks = [],
@@ -100,7 +99,7 @@ final readonly class AuthDesignerConfig
     public static function fromPageConfig(
         AuthPageConfig $config,
         bool $showThemeSwitcher,
-        ThemePosition $themePosition,
+        array $themePosition,
     ): static {
         $media = $config->getMedia();
         $hasMedia = $media !== null && $media !== '';

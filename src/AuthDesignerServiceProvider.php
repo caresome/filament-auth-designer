@@ -16,7 +16,6 @@ class AuthDesignerServiceProvider extends PackageServiceProvider
     {
         $package
             ->name(static::$name)
-            ->hasConfigFile()
             ->hasViews('filament-auth-designer');
     }
 
