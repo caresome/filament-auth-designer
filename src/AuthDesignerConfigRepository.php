@@ -57,8 +57,8 @@ class AuthDesignerConfigRepository
 
         return AuthDesignerConfig::fromPageConfig(
             config: $pageConfig,
-            showThemeSwitcher: $this->showThemeSwitcher,
-            themePosition: $this->themePosition,
+            showThemeSwitcher: $pageConfig->getShowThemeSwitcher() ?? $this->showThemeSwitcher,
+            themePosition: $pageConfig->getThemePosition() ?? $this->themePosition,
         );
     }
 

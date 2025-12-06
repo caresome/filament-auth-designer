@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 -   **Global defaults** via `->defaults()`
 -   **Custom page classes** via `->usingPage()`
 -   **Dynamic Media Positioning** - Replaces fixed layouts. Supports Left, Right, Top ("Stacked"), Bottom, and Cover
--   **Dynamic Theme Switcher** - Position the theme toggle button anywhere using CSS values (e.g., `bottom: '2rem'`)
+-   **Dynamic Theme Switcher** - Position the theme toggle button anywhere using CSS values, with support for per-page overrides
 -   **Render Hooks** - Inject content into layouts
 -   **Alt text support** for accessibility
 

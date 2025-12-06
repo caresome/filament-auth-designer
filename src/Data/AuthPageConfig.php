@@ -129,6 +129,40 @@ final class AuthPageConfig
         return $this->renderHooks;
     }
 
+    protected ?bool $showThemeSwitcher = null;
+
+    protected ?array $themePosition = null;
+
+    public function themeToggle(?string $top = null, ?string $right = null, ?string $bottom = null, ?string $left = null): static
+    {
+        $this->showThemeSwitcher = true;
+
+        if ($top === null && $right === null && $bottom === null && $left === null) {
+            $this->themePosition = ['top' => '1.5rem', 'right' => '1.5rem', 'bottom' => 'auto', 'left' => 'auto'];
+
+            return $this;
+        }
+
+        $this->themePosition = [
+            'top' => $top ?? 'auto',
+            'right' => $right ?? 'auto',
+            'bottom' => $bottom ?? 'auto',
+            'left' => $left ?? 'auto',
+        ];
+
+        return $this;
+    }
+
+    public function getShowThemeSwitcher(): ?bool
+    {
+        return $this->showThemeSwitcher;
+    }
+
+    public function getThemePosition(): ?array
+    {
+        return $this->themePosition;
+    }
+
     public function mergeWith(AuthPageConfig $defaults): static
     {
         $merged = new self;
@@ -140,6 +174,8 @@ final class AuthPageConfig
         $merged->blur = $this->blur !== 0 ? $this->blur : $defaults->blur;
         $merged->pageClass = $this->pageClass ?? $defaults->pageClass;
         $merged->renderHooks = $this->mergeRenderHooks($this->renderHooks, $defaults->renderHooks);
+        $merged->showThemeSwitcher = $this->showThemeSwitcher ?? $defaults->showThemeSwitcher;
+        $merged->themePosition = $this->themePosition ?? $defaults->themePosition;
 
         return $merged;
     }

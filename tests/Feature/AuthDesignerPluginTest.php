@@ -336,3 +336,41 @@ it('per-page render hooks are isolated between pages', function (): void {
     expect($loginConfig->renderHook('auth-designer::media.overlay'))->toBe('Login Overlay')
         ->and($registrationConfig->renderHook('auth-designer::media.overlay'))->toBe('Registration Overlay');
 });
+
+it('supports per-page theme toggle configuration', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->themeToggle(top: '1rem', right: '1rem') // Global default
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->themeToggle(bottom: '2rem', left: '2rem') // Override for login
+        )
+        ->registration(); // Use global default
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $loginConfig = $repository->getConfig('login');
+    $registrationConfig = $repository->getConfig('registration');
+
+    expect($loginConfig->showThemeSwitcher)->toBeTrue()
+        ->and($loginConfig->themePosition)->toBe(['top' => 'auto', 'right' => 'auto', 'bottom' => '2rem', 'left' => '2rem'])
+        ->and($registrationConfig->showThemeSwitcher)->toBeTrue()
+        ->and($registrationConfig->themePosition)->toBe(['top' => '1rem', 'right' => '1rem', 'bottom' => 'auto', 'left' => 'auto']);
+});
+
+it('supports global render hooks merged with page hooks', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->defaults(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->renderHook('auth-designer::global', fn (): string => 'Global')
+        )
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->renderHook('auth-designer::page', fn (): string => 'Page')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+    $loginConfig = $repository->getConfig('login');
+
+    expect($loginConfig->renderHook('auth-designer::global'))->toBe('Global')
+        ->and($loginConfig->renderHook('auth-designer::page'))->toBe('Page');
+});

@@ -4,8 +4,6 @@
 
 Transform Filament's default authentication pages into stunning, brand-ready experiences with customizable layouts, media backgrounds, and theme switching.
 
-> **Note:** This package is designed exclusively for **Filament v4**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
-
 ![Thumbnail](https://github.com/user-attachments/assets/79be5e83-2053-4708-9fc0-08d19edb977b)
 
 ## Table of Contents
@@ -21,7 +19,6 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 -   [Theme Toggle](#theme-toggle)
 -   [Configuration Examples](#configuration-examples)
 -   [Render Hooks](#render-hooks)
--   [Upgrading from v2.0](#upgrading-from-v20)
 -   [Troubleshooting](#troubleshooting)
 -   [Testing](#testing)
 -   [License](#license)
@@ -289,6 +286,14 @@ Enable light/dark/system theme switcher:
 
 You can position the theme switcher anywhere on the screen by passing `top`, `bottom`, `left`, or `right` CSS values. Defaults to `auto` if not specified.
 
+You can also override the theme switcher position for specific pages:
+
+```php
+->login(fn ($config) => $config
+    ->themeToggle(bottom: '2rem', left: '2rem')
+)
+```
+
 ![theme-position](https://github.com/user-attachments/assets/07be8080-9733-49d7-bef7-123be1d98997)
 
 ## Configuration Examples
@@ -357,6 +362,7 @@ AuthDesignerPlugin::make()
 | `->mediaSize()`     | Set media size                 | px/vh/rem; ignored for Cover           |
 | `->blur()`          | Blur intensity (0-20)          | Only applies to Cover position         |
 | `->usingPage()`     | Use custom page class          | For custom auth pages                  |
+| `->themeToggle()`   | Set theme switcher position    | Per-page override                      |
 
 ## Render Hooks
 
@@ -412,69 +418,6 @@ AuthDesignerPlugin::make()
 ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.logo'))
 ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.welcome-message'))
 ```
-
-## Upgrading from v1.x
-
-### Breaking Changes
-
-v2.0 replaces the layout-based system with a simpler position + size system:
-
-**Before (v1.x):**
-
-```php
-use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
-use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
-
-AuthDesignerPlugin::make()
-    ->login(fn ($config) => $config
-        ->layout(AuthLayout::Split)
-        ->media(asset('bg.jpg'))
-        ->direction(MediaDirection::Left)
-    )
-    ->registration(fn ($config) => $config
-        ->layout(AuthLayout::Overlay)
-        ->media(asset('reg.jpg'))
-        ->blur(8)
-    )
-```
-
-**After (v2.0):**
-
-```php
-use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
-
-AuthDesignerPlugin::make()
-    ->login(fn ($config) => $config
-        ->media(asset('bg.jpg'))
-        ->mediaPosition(MediaPosition::Left)
-        ->mediaSize('50%')
-    )
-    ->registration(fn ($config) => $config
-        ->media(asset('reg.jpg'))
-        ->mediaPosition(MediaPosition::Cover)
-        ->blur(8)
-    )
-```
-
-### Migration Guide
-
-| Old (v1.x)                                    | New (v2.0)                                       |
-| --------------------------------------------- | ------------------------------------------------ |
-| `AuthLayout::None`                            | No media set                                     |
-| `AuthLayout::Split` + `MediaDirection::Left`  | `MediaPosition::Left` + `mediaSize('50%')`       |
-| `AuthLayout::Split` + `MediaDirection::Right` | `MediaPosition::Right` + `mediaSize('50%')`      |
-| `AuthLayout::Panel`                           | `MediaPosition::Left/Right` + `mediaSize('35%')` |
-| `AuthLayout::Top`                             | `MediaPosition::Top` + `mediaSize('250px')`      |
-| `AuthLayout::Stacked`                         | `MediaPosition::Top` + `mediaSize('40vh')`       |
-| `AuthLayout::Overlay`                         | `MediaPosition::Cover`                           |
-
-### Removed
-
--   `AuthLayout` enum (replaced by `MediaPosition`)
--   `MediaDirection` enum (merged into `MediaPosition`)
--   `->layout()` method (use `->mediaPosition()`)
--   `ThemePosition` enum (replaced by CSS positioning arguments)
--   `->themeToggle()` (now accepts `top`, `bottom`, `left`, `right`)
 
 ## Troubleshooting
 
