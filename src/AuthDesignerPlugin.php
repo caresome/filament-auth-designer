@@ -2,32 +2,21 @@
 
 namespace Caresome\FilamentAuthDesigner;
 
-use Caresome\FilamentAuthDesigner\Enums\AuthLayout;
-use Caresome\FilamentAuthDesigner\Enums\MediaDirection;
-use Caresome\FilamentAuthDesigner\Enums\ThemePosition;
-use Caresome\FilamentAuthDesigner\Pages\Auth\EmailVerification;
-use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
-use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
-use Caresome\FilamentAuthDesigner\Pages\Auth\RequestPasswordReset;
-use Caresome\FilamentAuthDesigner\Pages\Auth\ResetPassword;
+use Caresome\FilamentAuthDesigner\Concerns\HasDefaults;
+use Caresome\FilamentAuthDesigner\Concerns\HasPages;
+use Caresome\FilamentAuthDesigner\Concerns\HasRenderHooks;
+use Caresome\FilamentAuthDesigner\Concerns\HasThemeSwitcher;
+use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Filament\Support\Facades\FilamentView;
 
 class AuthDesignerPlugin implements Plugin
 {
-    protected ?string $loginPageClass = null;
-
-    protected ?string $registerPageClass = null;
-
-    protected ?string $requestPasswordResetPageClass = null;
-
-    protected ?string $resetPasswordPageClass = null;
-
-    protected ?string $emailVerificationPageClass = null;
-
-    protected bool $showThemeSwitcher = false;
-
-    protected ThemePosition $themePosition = ThemePosition::TopRight;
+    use HasDefaults;
+    use HasPages;
+    use HasRenderHooks;
+    use HasThemeSwitcher;
 
     public function getId(): string
     {
@@ -36,30 +25,67 @@ class AuthDesignerPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        if ($this->loginPageClass) {
-            $panel->login($this->loginPageClass);
+        if ($this->hasLogin()) {
+            $panel->login($this->getLoginPageClass());
         }
 
-        if ($this->registerPageClass) {
-            $panel->registration($this->registerPageClass);
+        if ($this->hasRegistration()) {
+            $panel->registration($this->getRegistrationPageClass());
         }
 
-        if ($this->requestPasswordResetPageClass && $this->resetPasswordPageClass) {
+        if ($this->hasPasswordReset()) {
             $panel->passwordReset(
-                $this->requestPasswordResetPageClass,
-                $this->resetPasswordPageClass
+                $this->getRequestPasswordResetPageClass(),
+                $this->getResetPasswordPageClass()
             );
         }
 
-        if ($this->emailVerificationPageClass) {
-            $panel->emailVerification($this->emailVerificationPageClass);
+        if ($this->hasEmailVerification()) {
+            $panel->emailVerification($this->getEmailVerificationPageClass());
         }
     }
 
     public function boot(Panel $panel): void
     {
-        app()->instance(ConfigKeys::THEME_SWITCHER, $this->showThemeSwitcher);
-        app()->instance(ConfigKeys::THEME_POSITION, $this->themePosition);
+        $this->configureRepository();
+        $this->registerRenderHooks();
+    }
+
+    protected function registerRenderHooks(): void
+    {
+        foreach ($this->renderHooks as $name => $hooks) {
+            foreach ($hooks as $hook) {
+                FilamentView::registerRenderHook($name, $hook);
+            }
+        }
+    }
+
+    public function configureRepository(): void
+    {
+        $repository = app(AuthDesignerConfigRepository::class);
+
+        $defaults = $this->buildDefaultsConfig();
+        if ($defaults instanceof AuthPageConfig) {
+            $repository->setDefaults($defaults);
+        }
+
+        if ($this->hasLogin()) {
+            $repository->setPageConfig('login', $this->buildPageConfig($this->loginConfigurator));
+        }
+
+        if ($this->hasRegistration()) {
+            $repository->setPageConfig('registration', $this->buildPageConfig($this->registrationConfigurator));
+        }
+
+        if ($this->hasPasswordReset()) {
+            $repository->setPageConfig('password-reset', $this->buildPageConfig($this->passwordResetConfigurator));
+        }
+
+        if ($this->hasEmailVerification()) {
+            $repository->setPageConfig('email-verification', $this->buildPageConfig($this->emailVerificationConfigurator));
+        }
+
+        $repository->setThemeSwitcher($this->showThemeSwitcher, $this->themePosition);
     }
 
     public static function make(): static
@@ -71,54 +97,5 @@ class AuthDesignerPlugin implements Plugin
     {
         /** @var static */
         return filament(app(static::class)->getId());
-    }
-
-    public function login(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
-    {
-        $this->configureAuthPage('login', $layout, $media, $direction, $blur);
-        $this->loginPageClass = Login::class;
-
-        return $this;
-    }
-
-    public function registration(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
-    {
-        $this->configureAuthPage('registration', $layout, $media, $direction, $blur);
-        $this->registerPageClass = Register::class;
-
-        return $this;
-    }
-
-    public function passwordReset(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
-    {
-        $this->configureAuthPage('password-reset', $layout, $media, $direction, $blur);
-        $this->requestPasswordResetPageClass = RequestPasswordReset::class;
-        $this->resetPasswordPageClass = ResetPassword::class;
-
-        return $this;
-    }
-
-    public function emailVerification(AuthLayout $layout = AuthLayout::None, ?string $media = null, MediaDirection $direction = MediaDirection::Right, bool|int $blur = 0): static
-    {
-        $this->configureAuthPage('email-verification', $layout, $media, $direction, $blur);
-        $this->emailVerificationPageClass = EmailVerification::class;
-
-        return $this;
-    }
-
-    public function themeToggle(?ThemePosition $position = null): static
-    {
-        $this->showThemeSwitcher = true;
-        $this->themePosition = $position ?? ThemePosition::TopRight;
-
-        return $this;
-    }
-
-    private function configureAuthPage(string $key, AuthLayout $layout, ?string $media, MediaDirection $direction, bool|int $blur): void
-    {
-        app()->instance(ConfigKeys::media($key), $media);
-        app()->instance(ConfigKeys::position($key), $layout);
-        app()->instance(ConfigKeys::direction($key), $direction);
-        app()->instance(ConfigKeys::blur($key), $blur);
     }
 }

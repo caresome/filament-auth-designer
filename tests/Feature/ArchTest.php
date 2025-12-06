@@ -4,17 +4,18 @@ arch('it will not use debugging functions')
     ->expect(['dd', 'dump', 'ray'])
     ->each->not->toBeUsed();
 
-arch('ConfigKeys class is used instead of magic strings')
-    ->expect('Caresome\FilamentAuthDesigner\AuthDesignerPlugin')
-    ->not->toUse('filament-auth-designer.login.media')
-    ->not->toUse('filament-auth-designer.registration.media')
-    ->not->toUse('filament-auth-designer.password-reset.media')
-    ->not->toUse('filament-auth-designer.email-verification.media');
+arch('Data classes are final')
+    ->expect('Caresome\FilamentAuthDesigner\Data')
+    ->toBeFinal();
 
 arch('HasAuthDesignerLayout trait is only used in auth pages')
-    ->expect('Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout')
+    ->expect(\Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout::class)
     ->toOnlyBeUsedIn('Caresome\FilamentAuthDesigner\Pages\Auth');
 
 arch('all enums have string backing values')
     ->expect('Caresome\FilamentAuthDesigner\Enums')
     ->toBeEnums();
+
+arch('Support classes have no dependencies on Pages')
+    ->expect('Caresome\FilamentAuthDesigner\Support')
+    ->not->toUse('Caresome\FilamentAuthDesigner\Pages');

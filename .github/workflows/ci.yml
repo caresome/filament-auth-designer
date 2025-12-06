@@ -31,3 +31,6 @@ jobs:
 
       - name: Check code style
         run: vendor/bin/pint --test
+
+      - name: Check Rector
+        run: vendor/bin/rector process --dry-run

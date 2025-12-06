@@ -2,6 +2,7 @@
 
 namespace Caresome\FilamentAuthDesigner;
 
+use Caresome\FilamentAuthDesigner\Support\MediaDetector;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
@@ -17,6 +18,14 @@ class AuthDesignerServiceProvider extends PackageServiceProvider
             ->name(static::$name)
             ->hasConfigFile()
             ->hasViews('filament-auth-designer');
+    }
+
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->singleton(AuthDesignerConfigRepository::class);
+        $this->app->singleton(MediaDetector::class);
     }
 
     public function packageBooted(): void
