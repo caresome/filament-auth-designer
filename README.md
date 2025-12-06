@@ -6,7 +6,9 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 > **Note:** This package is designed exclusively for **Filament v4**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
 
-![caresome-auth-designer](https://github.com/user-attachments/assets/e8f14d21-a1b8-4929-a5fc-653b7563dfe1)
+
+![filament-auth-designer-demo](https://github.com/user-attachments/assets/65f282f5-1638-446d-ac4b-d8547068a873)
+
 
 ## Table of Contents
 
@@ -266,8 +268,6 @@ Videos auto-play, loop continuously, and are muted by default.
 )
 ```
 
-https://github.com/user-attachments/assets/154006f8-91b6-4e6e-9ed9-854442fe6a49
-
 ### Alt Text (Accessibility)
 
 ```php
@@ -295,8 +295,6 @@ You can also override the theme switcher position for specific pages:
     ->themeToggle(bottom: '2rem', left: '2rem')
 )
 ```
-
-![theme-position](https://github.com/user-attachments/assets/07be8080-9733-49d7-bef7-123be1d98997)
 
 ## Configuration Examples
 
