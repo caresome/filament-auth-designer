@@ -99,7 +99,7 @@
     max-width: 28rem;
 }
 
-.fi-auth-layout.media-left {
+.fi-auth-layout.media-right {
     flex-direction: row-reverse;
 }
 

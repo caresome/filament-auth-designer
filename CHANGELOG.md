@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.1 - 2025-12-06
+
+### Fixed
+
+-   Fixed inverted layout logic for `MediaPosition::Left` and `MediaPosition::Right` in CSS
+
 ## v2.0.0 - 2025-12-06
 
 ### Added
