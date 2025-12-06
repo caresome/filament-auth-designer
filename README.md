@@ -4,7 +4,9 @@
 
 Transform Filament's default authentication pages into stunning, brand-ready experiences with customizable layouts, media backgrounds, and theme switching.
 
-![Thumbnail](https://github.com/user-attachments/assets/79be5e83-2053-4708-9fc0-08d19edb977b)
+> **Note:** This package is designed exclusively for **Filament v4**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
+
+![caresome-auth-designer](https://github.com/user-attachments/assets/e8f14d21-a1b8-4929-a5fc-653b7563dfe1)
 
 ## Table of Contents
 
