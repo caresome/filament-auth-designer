@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.2 - 2025-12-06
+
+### Fixed
+
+-   Ensured blur effect applies to all media positions (Left, Right, Top, Bottom, Cover) instead of just Cover
+
 ## v2.0.1 - 2025-12-06
 
 ### Fixed

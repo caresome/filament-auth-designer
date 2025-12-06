@@ -81,6 +81,7 @@
 .fi-auth-layout.media-left .fi-auth-media-overlay,
 .fi-auth-layout.media-right .fi-auth-media-overlay {
     background: linear-gradient(to top, color-mix(in srgb, var(--gray-900) 50%, transparent), transparent);
+    backdrop-filter: blur(var(--ad-blur, 0px));
 }
 
 .fi-auth-layout.media-left .fi-auth-content-section,
@@ -138,10 +139,12 @@
 
 .fi-auth-layout.media-top .fi-auth-media-overlay {
     background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--gray-900) 30%, transparent));
+    backdrop-filter: blur(var(--ad-blur, 0px));
 }
 
 .fi-auth-layout.media-bottom .fi-auth-media-overlay {
     background: linear-gradient(to top, transparent, color-mix(in srgb, var(--gray-900) 30%, transparent));
+    backdrop-filter: blur(var(--ad-blur, 0px));
 }
 
 .fi-auth-layout.media-top .fi-auth-content-section,
@@ -187,7 +190,7 @@
 
 .fi-auth-layout.media-cover .fi-auth-media-overlay {
     background: color-mix(in srgb, var(--gray-950) 40%, transparent);
-    backdrop-filter: blur(var(--blur-overlay, 0px));
+    backdrop-filter: blur(var(--ad-blur, 0px));
 }
 
 .fi-auth-layout.media-cover .fi-auth-content-section {
@@ -198,7 +201,7 @@
 }
 
 .fi-auth-layout.media-cover .fi-auth-card {
-    backdrop-filter: blur(var(--blur-content, 0px));
+    backdrop-filter: blur(calc(var(--ad-blur, 0px) * 2.5));
     box-shadow: 0 20px 60px color-mix(in srgb, var(--gray-950) 30%, transparent);
 }
 

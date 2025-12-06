@@ -8,20 +8,16 @@
 @endphp
 
 <x-filament-panels::layout.base :livewire="$livewire">
-    @if($config->showThemeSwitcher)
-        @include('filament-auth-designer::components.partials.theme-toggle', ['position' => $config->themePosition])
+    @if ($config->showThemeSwitcher)
+        @include('filament-auth-designer::components.partials.theme-toggle', [
+            'position' => $config->themePosition,
+        ])
     @endif
 
-    <div
-        class="fi-auth-layout {{ $hasMedia ? 'has-media' : 'no-media' }} {{ $position ? 'media-' . $position->value : '' }}"
-        @if($hasMedia && !$isCover && $config->mediaSize)
-            style="{{ $config->getMediaSizeStyle() }}"
-        @endif
-        @if($isCover && $config->blur > 0)
-            style="--blur-overlay: {{ $config->getBlurOverlay() }}; --blur-content: {{ $config->getBlurContent() }}"
-        @endif
-    >
-        @if($hasMedia)
+    <div class="fi-auth-layout {{ $hasMedia ? 'has-media' : 'no-media' }} {{ $position ? 'media-' . $position->value : '' }}"
+        @if ($hasMedia && !$isCover && $config->mediaSize) style="{{ $config->getMediaSizeStyle() }}" @endif
+        @if ($config->blur > 0) style="--ad-blur: {{ $config->blur }}px; --blur-overlay: {{ $config->getBlurOverlay() }}; --blur-content: {{ $config->getBlurContent() }}" @endif>
+        @if ($hasMedia)
             <div class="fi-auth-media-section">
                 <div class="fi-auth-media-wrapper">
                     @include('filament-auth-designer::components.partials.media', [
@@ -31,7 +27,7 @@
                     ])
                     <div class="fi-auth-media-overlay"></div>
                 </div>
-                @if($config->hasRenderHook(AuthDesignerRenderHook::MediaOverlay))
+                @if ($config->hasRenderHook(AuthDesignerRenderHook::MediaOverlay))
                     <div class="fi-auth-media-content">
                         {!! $config->renderHook(AuthDesignerRenderHook::MediaOverlay) !!}
                     </div>
@@ -40,7 +36,7 @@
         @endif
 
         <div class="fi-auth-content-section">
-            @if($isCover)
+            @if ($isCover)
                 {!! $config->renderHook(AuthDesignerRenderHook::CardBefore) !!}
                 <x-filament::section class="fi-auth-card">
                     {{ $slot }}

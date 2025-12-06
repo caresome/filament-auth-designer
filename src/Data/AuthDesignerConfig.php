@@ -9,8 +9,6 @@ use Caresome\FilamentAuthDesigner\Support\MediaDetector;
 
 final readonly class AuthDesignerConfig
 {
-    private const BLUR_CONTENT_MULTIPLIER = 2.5;
-
     public function __construct(
         public ?MediaPosition $position,
         public ?string $media,
@@ -43,6 +41,8 @@ final readonly class AuthDesignerConfig
     {
         return $this->position?->isHorizontal() ?? false;
     }
+
+    private const BLUR_CONTENT_MULTIPLIER = 2.5;
 
     public function isVertical(): bool
     {

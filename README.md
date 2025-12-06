@@ -362,7 +362,7 @@ AuthDesignerPlugin::make()
 | `->media()`         | Set background image/video URL | First param is URL, second is alt text |
 | `->mediaPosition()` | Set media position             | Left, Right, Top, Bottom, Cover        |
 | `->mediaSize()`     | Set media size                 | px/vh/rem; ignored for Cover           |
-| `->blur()`          | Blur intensity (0-20)          | Only applies to Cover position         |
+| `->blur()`          | Blur intensity (0-20)          | Applies to all positions               |
 | `->usingPage()`     | Use custom page class          | For custom auth pages                  |
 | `->themeToggle()`   | Set theme switcher position    | Per-page override                      |
 
@@ -444,7 +444,6 @@ AuthDesignerPlugin::make()
 
 **Blur effect not working:**
 
--   Only works with `MediaPosition::Cover`
 -   Value must be between 0-20
 -   Some older browsers may not support backdrop-filter
 
