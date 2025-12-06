@@ -14,9 +14,20 @@
         ])
     @endif
 
+    @php
+        $layoutStyles = [];
+
+        if ($hasMedia && !$isCover && $config->mediaSize) {
+            $layoutStyles[] = $config->getMediaSizeStyle();
+        }
+
+        if ($config->blur > 0) {
+            $layoutStyles[] = "--ad-blur: {$config->blur}px; --blur-overlay: {$config->getBlurOverlay()}; --blur-content: {$config->getBlurContent()}";
+        }
+    @endphp
+
     <div class="fi-auth-layout {{ $hasMedia ? 'has-media' : 'no-media' }} {{ $position ? 'media-' . $position->value : '' }}"
-        @if ($hasMedia && !$isCover && $config->mediaSize) style="{{ $config->getMediaSizeStyle() }}" @endif
-        @if ($config->blur > 0) style="--ad-blur: {{ $config->blur }}px; --blur-overlay: {{ $config->getBlurOverlay() }}; --blur-content: {{ $config->getBlurContent() }}" @endif>
+        @if (count($layoutStyles)) style="{{ implode(';', $layoutStyles) }}" @endif>
         @if ($hasMedia)
             <div class="fi-auth-media-section">
                 <div class="fi-auth-media-wrapper">

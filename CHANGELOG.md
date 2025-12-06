@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.3 - 2025-12-06
+
+### Added
+
+-   **Profile Page Support** - Now supports `profile()` configuration with all auth designer features (media, position, blur, etc.)
+
 ## v2.0.2 - 2025-12-06
 
 ### Fixed

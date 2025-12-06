@@ -3,6 +3,7 @@
 namespace Caresome\FilamentAuthDesigner\Concerns;
 
 use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
+use Caresome\FilamentAuthDesigner\Pages\Auth\EditProfile;
 use Caresome\FilamentAuthDesigner\Pages\Auth\EmailVerification;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
@@ -27,6 +28,10 @@ trait HasPages
     protected bool $hasEmailVerification = false;
 
     protected ?Closure $emailVerificationConfigurator = null;
+
+    protected bool $hasProfile = false;
+
+    protected ?Closure $profileConfigurator = null;
 
     public function login(?Closure $configure = null): static
     {
@@ -60,6 +65,14 @@ trait HasPages
         return $this;
     }
 
+    public function profile(?Closure $configure = null): static
+    {
+        $this->hasProfile = true;
+        $this->profileConfigurator = $configure;
+
+        return $this;
+    }
+
     public function hasLogin(): bool
     {
         return $this->hasLogin;
@@ -78,6 +91,11 @@ trait HasPages
     public function hasEmailVerification(): bool
     {
         return $this->hasEmailVerification;
+    }
+
+    public function hasProfile(): bool
+    {
+        return $this->hasProfile;
     }
 
     protected function buildPageConfig(?Closure $configurator): AuthPageConfig
@@ -122,5 +140,12 @@ trait HasPages
         $config = $this->buildPageConfig($this->emailVerificationConfigurator);
 
         return $config->getPageClass() ?? EmailVerification::class;
+    }
+
+    protected function getProfilePageClass(): string
+    {
+        $config = $this->buildPageConfig($this->profileConfigurator);
+
+        return $config->getPageClass() ?? EditProfile::class;
     }
 }

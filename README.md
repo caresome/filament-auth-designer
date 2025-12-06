@@ -341,6 +341,10 @@ AuthDesignerPlugin::make()
         ->mediaSize('200px')
     )
     ->emailVerification() // Uses defaults
+    ->profile(fn ($config) => $config
+        ->media(asset('assets/profile-bg.jpg'))
+        ->mediaPosition(MediaPosition::Right)
+    )
     ->themeToggle(bottom: '2rem', right: '2rem')
 ```
 
@@ -353,6 +357,7 @@ AuthDesignerPlugin::make()
 | `->registration()`      | Configure registration page                                 |
 | `->passwordReset()`     | Configure password reset pages                              |
 | `->emailVerification()` | Configure email verification page                           |
+| `->profile()`           | Configure profile page                                      |
 | `->themeToggle()`       | Enable theme switcher (defaults to top-right, customizable) |
 
 ### Configuration Options

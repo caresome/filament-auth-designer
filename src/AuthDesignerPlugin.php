@@ -43,6 +43,10 @@ class AuthDesignerPlugin implements Plugin
         if ($this->hasEmailVerification()) {
             $panel->emailVerification($this->getEmailVerificationPageClass());
         }
+
+        if ($this->hasProfile()) {
+            $panel->profile($this->getProfilePageClass());
+        }
     }
 
     public function boot(Panel $panel): void
@@ -83,6 +87,10 @@ class AuthDesignerPlugin implements Plugin
 
         if ($this->hasEmailVerification()) {
             $repository->setPageConfig('email-verification', $this->buildPageConfig($this->emailVerificationConfigurator));
+        }
+
+        if ($this->hasProfile()) {
+            $repository->setPageConfig('profile', $this->buildPageConfig($this->profileConfigurator));
         }
 
         $repository->setThemeSwitcher($this->showThemeSwitcher, $this->themePosition);
