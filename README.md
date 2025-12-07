@@ -6,9 +6,7 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 > **Note:** This package is designed exclusively for **Filament v4**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
 
-
 ![filament-auth-designer-demo](https://github.com/user-attachments/assets/65f282f5-1638-446d-ac4b-d8547068a873)
-
 
 ## Table of Contents
 
@@ -268,6 +266,8 @@ Videos auto-play, loop continuously, and are muted by default.
 )
 ```
 
+https://github.com/user-attachments/assets/154006f8-91b6-4e6e-9ed9-854442fe6a49
+
 ### Alt Text (Accessibility)
 
 ```php
@@ -295,6 +295,8 @@ You can also override the theme switcher position for specific pages:
     ->themeToggle(bottom: '2rem', left: '2rem')
 )
 ```
+
+![theme-position](https://github.com/user-attachments/assets/07be8080-9733-49d7-bef7-123be1d98997)
 
 ## Configuration Examples
 
@@ -380,10 +382,8 @@ AuthDesignerPlugin::make()
     ->login(fn ($config) => $config
         ->media(asset('images/login-bg.jpg'))
         ->mediaPosition(MediaPosition::Cover)
+        ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.branding'))
     )
-    ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.branding'))
-    ->renderHook(AuthDesignerRenderHook::MediaBefore, fn () => view('auth.company-logo'))
-    ->renderHook(AuthDesignerRenderHook::ContentAfter, fn () => view('auth.footer-links'))
 ```
 
 ### Available Hook Positions
@@ -394,40 +394,37 @@ AuthDesignerPlugin::make()
 > -   `PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE`
 > -   `PanelsRenderHook::AUTH_LOGIN_FORM_AFTER`
 
-| Hook            | Description                   | Available In                       |
-| --------------- | ----------------------------- | ---------------------------------- |
-| `ContentBefore` | Before the main content area  | All layouts                        |
-| `ContentAfter`  | After the main content area   | All layouts                        |
-| `MediaBefore`   | Above the media (image/video) | Left, Right, Top, Bottom positions |
-| `MediaAfter`    | Below the media               | Left, Right, Top, Bottom positions |
-| `CardBefore`    | Above the login card          | Cover position only                |
-| `CardAfter`     | Below the login card          | Cover position only                |
+| Hook           | Description                     | Available In           |
+| -------------- | ------------------------------- | ---------------------- |
+| `MediaOverlay` | Overlay content on top of media | All layouts with media |
+| `CardBefore`   | Above the login card            | Cover position only    |
+| `CardAfter`    | Below the login card            | Cover position only    |
 
 ### Hook Examples
 
 **Add branding above the login card (Cover position):**
 
 ```php
-->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.branding'))
-```
-
-**Add a footer with terms/privacy links:**
-
-```php
-->renderHook(AuthDesignerRenderHook::ContentAfter, fn () => view('auth.footer'))
+->login(fn ($config) => $config
+    ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.branding'))
+)
 ```
 
 **Add company logo overlay on media:**
 
 ```php
-->renderHook(AuthDesignerRenderHook::MediaBefore, fn () => view('auth.logo-overlay'))
+->login(fn ($config) => $config
+    ->renderHook(AuthDesignerRenderHook::MediaOverlay, fn () => view('auth.logo-overlay'))
+)
 ```
 
 **Multiple hooks at the same position:**
 
 ```php
-->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.logo'))
-->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.welcome-message'))
+->login(fn ($config) => $config
+    ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.logo'))
+    ->renderHook(AuthDesignerRenderHook::CardBefore, fn () => view('auth.welcome-message'))
+)
 ```
 
 ## Troubleshooting
