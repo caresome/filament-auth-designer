@@ -6,7 +6,7 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 > **Note:** This package is designed exclusively for **Filament v4**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
 
-![filament-auth-designer-demo](https://github.com/user-attachments/assets/65f282f5-1638-446d-ac4b-d8547068a873)
+![filament-auth-designer-preview](https://github.com/user-attachments/assets/441dba74-3817-4f27-9e9c-99006b77aa36)
 
 ## Table of Contents
 
