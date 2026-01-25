@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v3.0.0 - 2026-01-25
+
+### Changed
+
+-   Add Filament v5 compatibility and raise composer constraint
+-   Remove typed class constants for PHP 8.2 support
+
 ## v2.0.4 - 2026-01-12
 
 ### Added

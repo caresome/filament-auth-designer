@@ -4,7 +4,7 @@
 
 Transform Filament's default authentication pages into stunning, brand-ready experiences with customizable layouts, media backgrounds, and theme switching.
 
-> **Note:** This package is designed exclusively for **Filament v4**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
+> **Note:** This package is designed for **Filament v5**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
 
 ![filament-auth-designer-preview](https://github.com/user-attachments/assets/441dba74-3817-4f27-9e9c-99006b77aa36)
 
@@ -45,7 +45,7 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 -   PHP 8.2+
 -   Laravel 11.0 or 12.0
--   Filament 4.0
+-   Filament 5.0
 
 ## Installation
 

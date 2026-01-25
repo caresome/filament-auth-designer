@@ -4,9 +4,9 @@ namespace Caresome\FilamentAuthDesigner\View;
 
 final class AuthDesignerRenderHook
 {
-    public const string CardBefore = 'auth-designer::card.before';
+    public const CardBefore = 'auth-designer::card.before';
 
-    public const string CardAfter = 'auth-designer::card.after';
+    public const CardAfter = 'auth-designer::card.after';
 
-    public const string MediaOverlay = 'auth-designer::media.overlay';
+    public const MediaOverlay = 'auth-designer::media.overlay';
 }
