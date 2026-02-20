@@ -2,8 +2,8 @@
     align-items: start;
 }
 
-.fi-auth-layout .fi-simple-header-heading {
-    text-align: left;
+.fi-simple-header-heading {
+    text-align: start;
 }
 
 /* ============================================
@@ -63,14 +63,18 @@
 }
 
 /* ============================================
-   Horizontal Positions (Left / Right)
+   Horizontal Positions (Start / End / Left / Right)
    ============================================ */
 
+.fi-auth-layout.media-start,
+.fi-auth-layout.media-end,
 .fi-auth-layout.media-left,
 .fi-auth-layout.media-right {
     flex-direction: row;
 }
 
+.fi-auth-layout.media-start .fi-auth-media-section,
+.fi-auth-layout.media-end .fi-auth-media-section,
 .fi-auth-layout.media-left .fi-auth-media-section,
 .fi-auth-layout.media-right .fi-auth-media-section {
     position: relative;
@@ -80,6 +84,8 @@
     overflow: hidden;
 }
 
+.fi-auth-layout.media-start .fi-auth-media-overlay,
+.fi-auth-layout.media-end .fi-auth-media-overlay,
 .fi-auth-layout.media-left .fi-auth-media-overlay,
 .fi-auth-layout.media-right .fi-auth-media-overlay {
     background: linear-gradient(
@@ -90,6 +96,8 @@
     backdrop-filter: blur(var(--ad-blur, 0px));
 }
 
+.fi-auth-layout.media-start .fi-auth-content-section,
+.fi-auth-layout.media-end .fi-auth-content-section,
 .fi-auth-layout.media-left .fi-auth-content-section,
 .fi-auth-layout.media-right .fi-auth-content-section {
     display: flex;
@@ -100,22 +108,30 @@
     padding: 3rem 1.5rem;
 }
 
+.fi-auth-layout.media-start .fi-auth-form-container,
+.fi-auth-layout.media-end .fi-auth-form-container,
 .fi-auth-layout.media-left .fi-auth-form-container,
 .fi-auth-layout.media-right .fi-auth-form-container {
     width: 100%;
     max-width: 28rem;
 }
 
-.fi-auth-layout.media-right {
+.fi-auth-layout.media-end,
+.fi-auth-layout.media-right:not(:dir(rtl)),
+.fi-auth-layout.media-left:dir(rtl) {
     flex-direction: row-reverse;
 }
 
 @media (min-width: 1024px) {
+    .fi-auth-layout.media-start .fi-auth-media-section,
+    .fi-auth-layout.media-end .fi-auth-media-section,
     .fi-auth-layout.media-left .fi-auth-media-section,
     .fi-auth-layout.media-right .fi-auth-media-section {
         display: block;
     }
 
+    .fi-auth-layout.media-start .fi-auth-content-section,
+    .fi-auth-layout.media-end .fi-auth-content-section,
     .fi-auth-layout.media-left .fi-auth-content-section,
     .fi-auth-layout.media-right .fi-auth-content-section {
         padding: 3rem;
@@ -240,7 +256,7 @@
 
 .fi-auth-theme-switcher-wrapper {
     top: var(--ad-theme-switcher-top, auto);
-    right: var(--ad-theme-switcher-right, auto);
+    inset-inline-end: var(--ad-theme-switcher-end, auto);
     bottom: var(--ad-theme-switcher-bottom, auto);
-    left: var(--ad-theme-switcher-left, auto);
+    inset-inline-start: var(--ad-theme-switcher-start, auto);
 }
