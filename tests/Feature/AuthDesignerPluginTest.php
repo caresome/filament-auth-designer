@@ -99,7 +99,7 @@ it('enables theme switcher with custom position', function (): void {
     $plugin = AuthDesignerPlugin::make()->themeToggle(bottom: '1.5rem', start: '1.5rem');
 
     expect($plugin->hasThemeSwitcher())->toBeTrue()
-        ->and($plugin->getThemePosition())->toBe(['top' => 'auto', 'end' => 'auto', 'bottom' => '1.5rem', 'start' => '1.5rem']);
+        ->and($plugin->getThemePosition())->toBe(['top' => 'auto', 'end' => 'auto', 'bottom' => '1.5rem', 'start' => '1.5rem', 'right' => 'auto', 'left' => 'auto']);
 });
 
 it('allows different configurations for different auth pages', function (): void {
@@ -281,7 +281,7 @@ it('stores theme switcher settings in repository', function (): void {
     $config = $repository->getConfig('login');
 
     expect($config->showThemeSwitcher)->toBeTrue()
-        ->and($config->themePosition)->toBe(['top' => 'auto', 'end' => '1.5rem', 'bottom' => '1.5rem', 'start' => 'auto']);
+        ->and($config->themePosition)->toBe(['top' => 'auto', 'end' => '1.5rem', 'bottom' => '1.5rem', 'start' => 'auto', 'right' => 'auto', 'left' => 'auto']);
 });
 
 it('registers render hooks on plugin', function (): void {
@@ -423,9 +423,9 @@ it('supports per-page theme toggle configuration', function (): void {
     $registrationConfig = $repository->getConfig('registration');
 
     expect($loginConfig->showThemeSwitcher)->toBeTrue()
-        ->and($loginConfig->themePosition)->toBe(['top' => 'auto', 'end' => 'auto', 'bottom' => '2rem', 'start' => '2rem'])
+        ->and($loginConfig->themePosition)->toBe(['top' => 'auto', 'end' => 'auto', 'bottom' => '2rem', 'start' => '2rem', 'right' => 'auto', 'left' => 'auto'])
         ->and($registrationConfig->showThemeSwitcher)->toBeTrue()
-        ->and($registrationConfig->themePosition)->toBe(['top' => '1rem', 'end' => '1rem', 'bottom' => 'auto', 'start' => 'auto']);
+        ->and($registrationConfig->themePosition)->toBe(['top' => '1rem', 'end' => '1rem', 'bottom' => 'auto', 'start' => 'auto', 'right' => 'auto', 'left' => 'auto']);
 });
 
 it('supports global render hooks merged with page hooks', function (): void {
