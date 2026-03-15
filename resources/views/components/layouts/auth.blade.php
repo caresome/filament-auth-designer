@@ -3,10 +3,11 @@
     use Filament\Support\Facades\FilamentView;
     use Filament\View\PanelsRenderHook;
 
-    $config = $authDesignerConfig;
+    $config = $livewire->getAuthDesignerConfig();
     $hasMedia = $config->hasMedia();
     $position = $config->position;
     $isCover = $config->isCover();
+    $renderHookScopes = $livewire?->getRenderHookScopes();
 @endphp
 
 <x-filament-panels::layout.base :livewire="$livewire">
@@ -21,6 +22,8 @@
             $layoutStyles[] = "--ad-blur: {$config->blur}px; --blur-overlay: {$config->getBlurOverlay()}; --blur-content: {$config->getBlurContent()}";
         }
     @endphp
+
+    {{ FilamentView::renderHook(PanelsRenderHook::SIMPLE_LAYOUT_START, scopes: $renderHookScopes) }}
 
     <div class="fi-auth-layout {{ $hasMedia ? 'has-media' : 'no-media' }} {{ $position ? 'media-' . $position->value : '' }}"
         @if (count($layoutStyles)) style="{{ implode(';', $layoutStyles) }}" @endif>
@@ -57,7 +60,8 @@
         </div>
     </div>
 
-    {{ FilamentView::renderHook(PanelsRenderHook::FOOTER) }}
+    {{ FilamentView::renderHook(PanelsRenderHook::FOOTER, scopes: $renderHookScopes) }}
+    {{ FilamentView::renderHook(PanelsRenderHook::SIMPLE_LAYOUT_END, scopes: $renderHookScopes) }}
 
     @if ($config->showThemeSwitcher)
         @include('filament-auth-designer::components.partials.theme-toggle', [

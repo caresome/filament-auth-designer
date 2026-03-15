@@ -8,6 +8,7 @@ use Caresome\FilamentAuthDesigner\Concerns\HasRenderHooks;
 use Caresome\FilamentAuthDesigner\Concerns\HasThemeSwitcher;
 use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
 use Filament\Contracts\Plugin;
+use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Support\Facades\FilamentView;
 
@@ -51,49 +52,60 @@ class AuthDesignerPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        $this->configureRepository();
-        $this->registerRenderHooks();
+        $this->configureRepository($panel->getId());
+        $this->registerRenderHooks($panel);
     }
 
-    protected function registerRenderHooks(): void
+    protected function registerRenderHooks(Panel $panel): void
     {
+        $panelId = $panel->getId();
+
         foreach ($this->renderHooks as $name => $hooks) {
             foreach ($hooks as $hook) {
-                FilamentView::registerRenderHook($name, $hook);
+                FilamentView::registerRenderHook($name, function (array $data = [], array $scopes = []) use ($hook, $panelId) {
+                    if (Filament::getCurrentPanel()?->getId() !== $panelId) {
+                        return '';
+                    }
+
+                    return app()->call($hook, [
+                        'data' => $data,
+                        'scopes' => $scopes,
+                    ]);
+                });
             }
         }
     }
 
-    public function configureRepository(): void
+    public function configureRepository(?string $panelId = null): void
     {
         $repository = app(AuthDesignerConfigRepository::class);
 
         $defaults = $this->buildDefaultsConfig();
         if ($defaults instanceof AuthPageConfig) {
-            $repository->setDefaults($defaults);
+            $repository->setDefaults($defaults, $panelId);
         }
 
         if ($this->hasLogin()) {
-            $repository->setPageConfig('login', $this->buildPageConfig($this->loginConfigurator));
+            $repository->setPageConfig('login', $this->buildPageConfig($this->loginConfigurator), $panelId);
         }
 
         if ($this->hasRegistration()) {
-            $repository->setPageConfig('registration', $this->buildPageConfig($this->registrationConfigurator));
+            $repository->setPageConfig('registration', $this->buildPageConfig($this->registrationConfigurator), $panelId);
         }
 
         if ($this->hasPasswordReset()) {
-            $repository->setPageConfig('password-reset', $this->buildPageConfig($this->passwordResetConfigurator));
+            $repository->setPageConfig('password-reset', $this->buildPageConfig($this->passwordResetConfigurator), $panelId);
         }
 
         if ($this->hasEmailVerification()) {
-            $repository->setPageConfig('email-verification', $this->buildPageConfig($this->emailVerificationConfigurator));
+            $repository->setPageConfig('email-verification', $this->buildPageConfig($this->emailVerificationConfigurator), $panelId);
         }
 
         if ($this->hasProfile()) {
-            $repository->setPageConfig('profile', $this->buildPageConfig($this->profileConfigurator));
+            $repository->setPageConfig('profile', $this->buildPageConfig($this->profileConfigurator), $panelId);
         }
 
-        $repository->setThemeSwitcher($this->showThemeSwitcher, $this->themePosition);
+        $repository->setThemeSwitcher($this->showThemeSwitcher, $this->themePosition, $panelId);
     }
 
     public static function make(): static

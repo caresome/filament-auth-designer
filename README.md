@@ -4,7 +4,7 @@
 
 Transform Filament's default authentication pages into stunning, brand-ready experiences with customizable layouts, media backgrounds, and theme switching.
 
-> **Note:** This package is designed for **Filament v5**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
+> **Note:** This package supports **Filament v4 and v5**. For changes and updates, see the [CHANGELOG](CHANGELOG.md).
 
 ![filament-auth-designer-preview](https://github.com/user-attachments/assets/441dba74-3817-4f27-9e9c-99006b77aa36)
 
@@ -35,6 +35,7 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 -   📍 **Positionable Theme Toggle** - Place theme switcher in any corner
 -   🔧 **Global Defaults** - Set defaults that apply to all auth pages
 -   🎯 **Per-Page Overrides** - Override defaults for specific pages
+-   🧩 **Panel-Scoped Config** - In multi-panel apps, each panel keeps its own auth designer configuration
 -   🔌 **Custom Page Classes** - Use your own page classes with the plugin's layouts
 -   🪝 **Render Hooks** - Inject custom content at specific positions in layouts
 -   ♿ **Accessibility** - Alt text support for media
@@ -45,7 +46,7 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 -   PHP 8.2+
 -   Laravel 11.0 or 12.0
--   Filament 5.0
+-   Filament 4.0 or 5.0
 
 ## Installation
 
@@ -221,7 +222,7 @@ AuthDesignerPlugin::make()
 
 ```php
 use Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout;
-use Filament\Pages\Auth\Login;
+use Filament\Auth\Pages\Login;
 
 class CustomLogin extends Login
 {
@@ -369,6 +370,7 @@ AuthDesignerPlugin::make()
 | `->mediaSize()`     | Set media size                 | px/vh/rem; ignored for Cover           |
 | `->blur()`          | Blur intensity (0-20)          | Applies to all positions               |
 | `->usingPage()`     | Use custom page class          | For custom auth pages                  |
+| `->usingResetPage()`| Use custom reset page class    | For password reset confirm page only   |
 | `->themeToggle()`   | Set theme switcher position    | Per-page override                      |
 
 ## Render Hooks

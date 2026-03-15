@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Changed
+
+-   Restore support for Filament v4 and v5 in composer constraints
+
 ## v3.0.0 - 2026-01-25
 
 ### Changed

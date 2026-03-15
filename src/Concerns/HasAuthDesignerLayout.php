@@ -3,7 +3,8 @@
 namespace Caresome\FilamentAuthDesigner\Concerns;
 
 use Caresome\FilamentAuthDesigner\AuthDesignerConfigRepository;
-use Illuminate\Support\Facades\View;
+use Caresome\FilamentAuthDesigner\Data\AuthDesignerConfig;
+use Filament\Facades\Filament;
 
 trait HasAuthDesignerLayout
 {
@@ -14,16 +15,17 @@ trait HasAuthDesignerLayout
         }
 
         static::$layout = 'filament-auth-designer::components.layouts.auth';
-
-        $this->shareAuthDesignerConfig();
     }
 
-    protected function shareAuthDesignerConfig(): void
+    public function getAuthDesignerConfig(): AuthDesignerConfig
     {
         $repository = app(AuthDesignerConfigRepository::class);
-        $config = $repository->getConfig($this->getAuthDesignerPageKey());
+        $panelId = app()->bound('filament') ? Filament::getCurrentPanel()?->getId() : null;
 
-        View::share('authDesignerConfig', $config);
+        return $repository->getConfig(
+            $this->getAuthDesignerPageKey(),
+            $panelId,
+        );
     }
 
     abstract protected function getAuthDesignerPageKey(): string;

@@ -15,11 +15,13 @@ final class AuthPageConfig
 
     protected ?string $mediaSize = null;
 
-    protected int $blur = 0;
+    protected ?int $blur = null;
 
     protected ?string $mediaAlt = null;
 
     protected ?string $pageClass = null;
+
+    protected ?string $resetPageClass = null;
 
     protected array $renderHooks = [];
 
@@ -59,6 +61,13 @@ final class AuthPageConfig
         return $this;
     }
 
+    public function usingResetPage(string $pageClass): static
+    {
+        $this->resetPageClass = $pageClass;
+
+        return $this;
+    }
+
     public function renderHook(string $name, \Closure $hook): static
     {
         $this->renderHooks[$name][] = $hook;
@@ -92,7 +101,7 @@ final class AuthPageConfig
 
     public function getBlur(): int
     {
-        return $this->blur;
+        return $this->blur ?? 0;
     }
 
     public function getMediaAlt(): ?string
@@ -103,6 +112,11 @@ final class AuthPageConfig
     public function getPageClass(): ?string
     {
         return $this->pageClass;
+    }
+
+    public function getResetPageClass(): ?string
+    {
+        return $this->resetPageClass;
     }
 
     public function hasMedia(): bool
@@ -171,8 +185,9 @@ final class AuthPageConfig
         $merged->mediaAlt = $this->mediaAlt ?? $defaults->mediaAlt;
         $merged->position = $this->position ?? $defaults->position;
         $merged->mediaSize = $this->mediaSize ?? $defaults->mediaSize;
-        $merged->blur = $this->blur !== 0 ? $this->blur : $defaults->blur;
+        $merged->blur = $this->blur ?? $defaults->blur;
         $merged->pageClass = $this->pageClass ?? $defaults->pageClass;
+        $merged->resetPageClass = $this->resetPageClass ?? $defaults->resetPageClass;
         $merged->renderHooks = $this->mergeRenderHooks($this->renderHooks, $defaults->renderHooks);
         $merged->showThemeSwitcher = $this->showThemeSwitcher ?? $defaults->showThemeSwitcher;
         $merged->themePosition = $this->themePosition ?? $defaults->themePosition;

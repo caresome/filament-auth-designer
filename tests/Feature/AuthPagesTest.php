@@ -7,15 +7,13 @@ use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
 use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Login;
 use Caresome\FilamentAuthDesigner\Pages\Auth\Register;
-use Illuminate\Support\Facades\View;
 
 beforeEach(function (): void {
-    View::getFinder()->flush();
     app()->forgetInstance(AuthDesignerConfigRepository::class);
     app()->singleton(AuthDesignerConfigRepository::class);
 });
 
-it('login page shares configuration to view', function (): void {
+it('login page returns configuration', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
@@ -28,15 +26,14 @@ it('login page shares configuration to view', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared)->toHaveKey('authDesignerConfig')
-        ->and($shared['authDesignerConfig'])->toBeInstanceOf(AuthDesignerConfig::class)
-        ->and($shared['authDesignerConfig']->media)->toBe('/images/login-bg.jpg')
-        ->and($shared['authDesignerConfig']->position)->toBe(MediaPosition::Cover)
-        ->and($shared['authDesignerConfig']->blur)->toBe(10);
+    $config = $loginPage->getAuthDesignerConfig();
+    expect($config)->toBeInstanceOf(AuthDesignerConfig::class)
+        ->and($config->media)->toBe('/images/login-bg.jpg')
+        ->and($config->position)->toBe(MediaPosition::Cover)
+        ->and($config->blur)->toBe(10);
 });
 
-it('registration page shares configuration to view', function (): void {
+it('registration page returns configuration', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Right)
@@ -49,22 +46,20 @@ it('registration page shares configuration to view', function (): void {
     $registerPage = new Register;
     $registerPage->boot();
 
-    $shared = View::getShared();
-    expect($shared)->toHaveKey('authDesignerConfig')
-        ->and($shared['authDesignerConfig']->media)->toBe('/images/register-bg.jpg')
-        ->and($shared['authDesignerConfig']->position)->toBe(MediaPosition::Right)
-        ->and($shared['authDesignerConfig']->mediaSize)->toBe('50%');
+    $config = $registerPage->getAuthDesignerConfig();
+    expect($config->media)->toBe('/images/register-bg.jpg')
+        ->and($config->position)->toBe(MediaPosition::Right)
+        ->and($config->mediaSize)->toBe('50%');
 });
 
 it('auth page uses default values when no configuration provided', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared)->toHaveKey('authDesignerConfig')
-        ->and($shared['authDesignerConfig']->media)->toBeNull()
-        ->and($shared['authDesignerConfig']->position)->toBeNull()
-        ->and($shared['authDesignerConfig']->blur)->toBe(0);
+    $config = $loginPage->getAuthDesignerConfig();
+    expect($config->media)->toBeNull()
+        ->and($config->position)->toBeNull()
+        ->and($config->blur)->toBe(0);
 });
 
 it('different auth pages have isolated configurations', function (): void {
@@ -84,20 +79,18 @@ it('different auth pages have isolated configurations', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared['authDesignerConfig']->media)->toBe('/login.jpg')
-        ->and($shared['authDesignerConfig']->position)->toBe(MediaPosition::Cover)
-        ->and($shared['authDesignerConfig']->blur)->toBe(10);
-
-    View::share('authDesignerConfig');
+    $loginConfig = $loginPage->getAuthDesignerConfig();
+    expect($loginConfig->media)->toBe('/login.jpg')
+        ->and($loginConfig->position)->toBe(MediaPosition::Cover)
+        ->and($loginConfig->blur)->toBe(10);
 
     $registerPage = new Register;
     $registerPage->boot();
 
-    $shared = View::getShared();
-    expect($shared['authDesignerConfig']->media)->toBe('/register.jpg')
-        ->and($shared['authDesignerConfig']->position)->toBe(MediaPosition::Left)
-        ->and($shared['authDesignerConfig']->blur)->toBe(0);
+    $registrationConfig = $registerPage->getAuthDesignerConfig();
+    expect($registrationConfig->media)->toBe('/register.jpg')
+        ->and($registrationConfig->position)->toBe(MediaPosition::Left)
+        ->and($registrationConfig->blur)->toBe(0);
 });
 
 it('login page returns correct page key', function (): void {
@@ -126,8 +119,8 @@ it('config includes theme switcher settings', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared['authDesignerConfig']->showThemeSwitcher)->toBeTrue();
+    $config = $loginPage->getAuthDesignerConfig();
+    expect($config->showThemeSwitcher)->toBeTrue();
 });
 
 it('shares media size style for horizontal positions', function (): void {
@@ -143,8 +136,8 @@ it('shares media size style for horizontal positions', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared['authDesignerConfig']->getMediaSizeStyle())->toBe('--media-size: 40%');
+    $config = $loginPage->getAuthDesignerConfig();
+    expect($config->getMediaSizeStyle())->toBe('--media-size: 40%');
 });
 
 it('shares media size style for vertical positions', function (): void {
@@ -160,8 +153,8 @@ it('shares media size style for vertical positions', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared['authDesignerConfig']->getMediaSizeStyle())->toBe('--media-size: 300px');
+    $config = $loginPage->getAuthDesignerConfig();
+    expect($config->getMediaSizeStyle())->toBe('--media-size: 300px');
 });
 
 it('returns empty size style for cover position', function (): void {
@@ -177,6 +170,6 @@ it('returns empty size style for cover position', function (): void {
     $loginPage = new Login;
     $loginPage->boot();
 
-    $shared = View::getShared();
-    expect($shared['authDesignerConfig']->getMediaSizeStyle())->toBe('');
+    $config = $loginPage->getAuthDesignerConfig();
+    expect($config->getMediaSizeStyle())->toBe('');
 });

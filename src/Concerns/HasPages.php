@@ -132,7 +132,9 @@ trait HasPages
 
     protected function getResetPasswordPageClass(): string
     {
-        return ResetPassword::class;
+        $config = $this->buildPageConfig($this->passwordResetConfigurator);
+
+        return $config->getResetPageClass() ?? ResetPassword::class;
     }
 
     protected function getEmailVerificationPageClass(): string

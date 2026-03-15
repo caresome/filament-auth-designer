@@ -166,6 +166,24 @@ it('allows per-page overrides of global defaults', function (): void {
         ->and($repository->getConfig('registration')->position)->toBe(MediaPosition::Cover);
 });
 
+it('allows per-page blur value of zero to override global defaults', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->defaults(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->blur(8)
+        )
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->blur(0)
+        )
+        ->registration();
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+
+    expect($repository->getConfig('login')->blur)->toBe(0)
+        ->and($repository->getConfig('registration')->blur)->toBe(8);
+});
+
 it('supports custom page classes via usingPage', function (): void {
     $customPageClass = 'App\\Filament\\Pages\\Auth\\CustomLogin';
 
@@ -182,6 +200,57 @@ it('supports custom page classes via usingPage', function (): void {
 
     expect($pageConfig->getPageClass())->toBe($customPageClass)
         ->and($pageConfig->hasCustomPage())->toBeTrue();
+});
+
+it('supports custom reset password page class via usingResetPage', function (): void {
+    $customResetPasswordPageClass = 'App\\Filament\\Pages\\Auth\\CustomResetPassword';
+
+    $plugin = new class extends AuthDesignerPlugin
+    {
+        public function exposedResetPasswordPageClass(): string
+        {
+            return $this->getResetPasswordPageClass();
+        }
+    };
+
+    $plugin->passwordReset(fn (AuthPageConfig $config): AuthPageConfig => $config
+        ->usingResetPage($customResetPasswordPageClass)
+    );
+
+    expect($plugin->exposedResetPasswordPageClass())->toBe($customResetPasswordPageClass);
+});
+
+it('scopes configuration by panel id', function (): void {
+    $adminPlugin = (new AuthDesignerPlugin)
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->media('/admin-login.jpg')
+        );
+
+    $memberPlugin = (new AuthDesignerPlugin)
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->media('/member-login.jpg')
+        );
+
+    $adminPlugin->configureRepository('admin');
+    $memberPlugin->configureRepository('member');
+
+    $repository = app(AuthDesignerConfigRepository::class);
+
+    expect($repository->getConfig('login', 'admin')->media)->toBe('/admin-login.jpg')
+        ->and($repository->getConfig('login', 'member')->media)->toBe('/member-login.jpg');
+});
+
+it('falls back to global configuration when panel-specific config is missing', function (): void {
+    $plugin = AuthDesignerPlugin::make()
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
+            ->media('/global-login.jpg')
+        );
+
+    $plugin->configureRepository();
+
+    $repository = app(AuthDesignerConfigRepository::class);
+
+    expect($repository->getConfig('login', 'admin')->media)->toBe('/global-login.jpg');
 });
 
 it('supports bottom position', function (): void {
