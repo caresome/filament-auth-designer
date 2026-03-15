@@ -29,6 +29,9 @@ class AuthDesignerPlugin implements Plugin
 
     protected ThemePosition $themePosition = ThemePosition::TopRight;
 
+    /** @var array<string, array{layout: AuthLayout, media: ?string, direction: MediaDirection, blur: bool|int}> */
+    protected array $pageConfigs = [];
+
     public function getId(): string
     {
         return 'auth-designer';
@@ -60,6 +63,13 @@ class AuthDesignerPlugin implements Plugin
     {
         app()->instance(ConfigKeys::THEME_SWITCHER, $this->showThemeSwitcher);
         app()->instance(ConfigKeys::THEME_POSITION, $this->themePosition);
+
+        foreach ($this->pageConfigs as $key => $config) {
+            app()->instance(ConfigKeys::media($key), $config['media']);
+            app()->instance(ConfigKeys::position($key), $config['layout']);
+            app()->instance(ConfigKeys::direction($key), $config['direction']);
+            app()->instance(ConfigKeys::blur($key), $config['blur']);
+        }
     }
 
     public static function make(): static
@@ -116,9 +126,11 @@ class AuthDesignerPlugin implements Plugin
 
     private function configureAuthPage(string $key, AuthLayout $layout, ?string $media, MediaDirection $direction, bool|int $blur): void
     {
-        app()->instance(ConfigKeys::media($key), $media);
-        app()->instance(ConfigKeys::position($key), $layout);
-        app()->instance(ConfigKeys::direction($key), $direction);
-        app()->instance(ConfigKeys::blur($key), $blur);
+        $this->pageConfigs[$key] = [
+            'layout' => $layout,
+            'media' => $media,
+            'direction' => $direction,
+            'blur' => $blur,
+        ];
     }
 }
