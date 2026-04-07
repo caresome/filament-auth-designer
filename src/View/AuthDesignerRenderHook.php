@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Caresome\FilamentAuthDesigner\View;
 
 final class AuthDesignerRenderHook

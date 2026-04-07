@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Caresome\FilamentAuthDesigner\Pages\Auth;
 
 use Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout;
