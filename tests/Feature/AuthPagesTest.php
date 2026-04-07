@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Caresome\FilamentAuthDesigner\AuthDesignerConfigRepository;
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
 use Caresome\FilamentAuthDesigner\Data\AuthDesignerConfig;
@@ -15,7 +17,7 @@ beforeEach(function (): void {
 
 it('login page returns configuration', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/images/login-bg.jpg')
             ->blur(10)
@@ -35,7 +37,7 @@ it('login page returns configuration', function (): void {
 
 it('registration page returns configuration', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Right)
             ->media('/images/register-bg.jpg')
             ->mediaSize('50%')
@@ -64,12 +66,12 @@ it('auth page uses default values when no configuration provided', function (): 
 
 it('different auth pages have isolated configurations', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/login.jpg')
             ->blur(10)
         )
-        ->registration(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Left)
             ->media('/register.jpg')
         );
@@ -125,7 +127,7 @@ it('config includes theme switcher settings', function (): void {
 
 it('shares media size style for horizontal positions', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Left)
             ->media('/login.jpg')
             ->mediaSize('40%')
@@ -142,7 +144,7 @@ it('shares media size style for horizontal positions', function (): void {
 
 it('shares media size style for vertical positions', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Top)
             ->media('/login.jpg')
             ->mediaSize('300px')
@@ -159,7 +161,7 @@ it('shares media size style for vertical positions', function (): void {
 
 it('returns empty size style for cover position', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->login(fn (AuthPageConfig $config): \Caresome\FilamentAuthDesigner\Data\AuthPageConfig => $config
+        ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->mediaPosition(MediaPosition::Cover)
             ->media('/login.jpg')
             ->mediaSize('50%')

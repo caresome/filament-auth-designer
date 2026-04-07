@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Caresome\FilamentAuthDesigner;
 
 use Caresome\FilamentAuthDesigner\Data\AuthDesignerConfig;
@@ -50,7 +52,7 @@ class AuthDesignerConfigRepository
 
     public function hasPageConfig(string $page, ?string $panelId = null): bool
     {
-        return $this->getPageConfig($page, $panelId) instanceof \Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
+        return $this->getPageConfig($page, $panelId) instanceof AuthPageConfig;
     }
 
     public function setThemeSwitcher(bool $enabled, array $position, ?string $panelId = null): void

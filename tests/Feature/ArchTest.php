@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+use Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout;
+
 arch('it will not use debugging functions')
     ->expect(['dd', 'dump', 'ray'])
     ->each->not->toBeUsed();
@@ -9,7 +13,7 @@ arch('Data classes are final')
     ->toBeFinal();
 
 arch('HasAuthDesignerLayout trait is only used in auth pages')
-    ->expect(\Caresome\FilamentAuthDesigner\Concerns\HasAuthDesignerLayout::class)
+    ->expect(HasAuthDesignerLayout::class)
     ->toOnlyBeUsedIn('Caresome\FilamentAuthDesigner\Pages\Auth');
 
 arch('all enums have string backing values')
