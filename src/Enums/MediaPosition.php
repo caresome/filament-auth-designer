@@ -6,6 +6,8 @@ namespace Caresome\FilamentAuthDesigner\Enums;
 
 enum MediaPosition: string
 {
+    case Start = 'start';
+    case End = 'end';
     case Left = 'left';
     case Right = 'right';
     case Top = 'top';
@@ -14,7 +16,7 @@ enum MediaPosition: string
 
     public function isHorizontal(): bool
     {
-        return in_array($this, [self::Left, self::Right], true);
+        return in_array($this, [self::Start, self::End, self::Left, self::Right], true);
     }
 
     public function isVertical(): bool

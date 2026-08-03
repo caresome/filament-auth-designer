@@ -13,9 +13,9 @@ class AuthDesignerConfigRepository
 
     protected const DEFAULT_THEME_POSITION = [
         'top' => '1.5rem',
-        'right' => '1.5rem',
+        'end' => '1.5rem',
         'bottom' => 'auto',
-        'left' => 'auto',
+        'start' => 'auto',
     ];
 
     protected array $defaults = [];

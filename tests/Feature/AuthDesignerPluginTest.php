@@ -31,7 +31,7 @@ it('stores login configuration with closure-based API', function (): void {
 it('stores registration configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->mediaPosition(MediaPosition::Right)
+            ->mediaPosition(MediaPosition::End)
             ->media('/images/register-bg.jpg')
             ->mediaSize('50%')
         );
@@ -42,7 +42,7 @@ it('stores registration configuration with closure-based API', function (): void
     $config = $repository->getConfig('registration');
 
     expect($config->media)->toBe('/images/register-bg.jpg')
-        ->and($config->position)->toBe(MediaPosition::Right)
+        ->and($config->position)->toBe(MediaPosition::End)
         ->and($config->mediaSize)->toBe('50%');
 });
 
@@ -67,7 +67,7 @@ it('stores password reset configuration with closure-based API', function (): vo
 it('stores email verification configuration with closure-based API', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->emailVerification(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->mediaPosition(MediaPosition::Left)
+            ->mediaPosition(MediaPosition::Start)
             ->media('/images/verify-bg.jpg')
             ->mediaSize('40%')
         );
@@ -78,7 +78,7 @@ it('stores email verification configuration with closure-based API', function ()
     $config = $repository->getConfig('email-verification');
 
     expect($config->media)->toBe('/images/verify-bg.jpg')
-        ->and($config->position)->toBe(MediaPosition::Left)
+        ->and($config->position)->toBe(MediaPosition::Start)
         ->and($config->mediaSize)->toBe('40%');
 });
 
@@ -92,14 +92,14 @@ it('enables theme switcher with default position', function (): void {
     $plugin = AuthDesignerPlugin::make()->themeToggle();
 
     expect($plugin->hasThemeSwitcher())->toBeTrue()
-        ->and($plugin->getThemePosition())->toBe(['top' => '1.5rem', 'right' => '1.5rem', 'bottom' => 'auto', 'left' => 'auto']);
+        ->and($plugin->getThemePosition())->toBe(['top' => '1.5rem', 'end' => '1.5rem', 'bottom' => 'auto', 'start' => 'auto']);
 });
 
 it('enables theme switcher with custom position', function (): void {
-    $plugin = AuthDesignerPlugin::make()->themeToggle(bottom: '1.5rem', left: '1.5rem');
+    $plugin = AuthDesignerPlugin::make()->themeToggle(bottom: '1.5rem', start: '1.5rem');
 
     expect($plugin->hasThemeSwitcher())->toBeTrue()
-        ->and($plugin->getThemePosition())->toBe(['top' => 'auto', 'right' => 'auto', 'bottom' => '1.5rem', 'left' => '1.5rem']);
+        ->and($plugin->getThemePosition())->toBe(['top' => 'auto', 'end' => 'auto', 'bottom' => '1.5rem', 'start' => '1.5rem', 'right' => 'auto', 'left' => 'auto']);
 });
 
 it('allows different configurations for different auth pages', function (): void {
@@ -151,7 +151,7 @@ it('allows per-page overrides of global defaults', function (): void {
             ->media('/default-bg.jpg')
         )
         ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->mediaPosition(MediaPosition::Left)
+            ->mediaPosition(MediaPosition::Start)
             ->media('/login-bg.jpg')
         )
         ->registration();
@@ -161,7 +161,7 @@ it('allows per-page overrides of global defaults', function (): void {
     $repository = app(AuthDesignerConfigRepository::class);
 
     expect($repository->getConfig('login')->media)->toBe('/login-bg.jpg')
-        ->and($repository->getConfig('login')->position)->toBe(MediaPosition::Left)
+        ->and($repository->getConfig('login')->position)->toBe(MediaPosition::Start)
         ->and($repository->getConfig('registration')->media)->toBe('/default-bg.jpg')
         ->and($repository->getConfig('registration')->position)->toBe(MediaPosition::Cover);
 });
@@ -273,7 +273,7 @@ it('supports bottom position', function (): void {
 it('stores theme switcher settings in repository', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->login()
-        ->themeToggle(right: '1.5rem', bottom: '1.5rem');
+        ->themeToggle(end: '1.5rem', bottom: '1.5rem');
 
     $plugin->configureRepository();
 
@@ -281,7 +281,7 @@ it('stores theme switcher settings in repository', function (): void {
     $config = $repository->getConfig('login');
 
     expect($config->showThemeSwitcher)->toBeTrue()
-        ->and($config->themePosition)->toBe(['top' => 'auto', 'right' => '1.5rem', 'bottom' => '1.5rem', 'left' => 'auto']);
+        ->and($config->themePosition)->toBe(['top' => 'auto', 'end' => '1.5rem', 'bottom' => '1.5rem', 'start' => 'auto', 'right' => 'auto', 'left' => 'auto']);
 });
 
 it('registers render hooks on plugin', function (): void {
@@ -338,10 +338,12 @@ it('has null position when no media is set', function (): void {
 
 it('supports all media positions', function (): void {
     $positions = [
-        MediaPosition::Left,
-        MediaPosition::Right,
+        MediaPosition::Start,
+        MediaPosition::End,
         MediaPosition::Top,
         MediaPosition::Bottom,
+        MediaPosition::Left,
+        MediaPosition::Right,
         MediaPosition::Cover,
     ];
 
@@ -368,7 +370,7 @@ it('supports per-page render hooks', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
             ->media('/bg.jpg')
-            ->mediaPosition(MediaPosition::Left)
+            ->mediaPosition(MediaPosition::Start)
             ->renderHook('auth-designer::media.overlay', fn (): string => '<div>Overlay Content</div>')
             ->renderHook('auth-designer::card.before', fn (): string => '<div>Branding</div>')
         );
@@ -408,9 +410,9 @@ it('per-page render hooks are isolated between pages', function (): void {
 
 it('supports per-page theme toggle configuration', function (): void {
     $plugin = AuthDesignerPlugin::make()
-        ->themeToggle(top: '1rem', right: '1rem') // Global default
+        ->themeToggle(top: '1rem', end: '1rem') // Global default
         ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->themeToggle(bottom: '2rem', left: '2rem') // Override for login
+            ->themeToggle(bottom: '2rem', start: '2rem') // Override for login
         )
         ->registration(); // Use global default
 
@@ -421,9 +423,9 @@ it('supports per-page theme toggle configuration', function (): void {
     $registrationConfig = $repository->getConfig('registration');
 
     expect($loginConfig->showThemeSwitcher)->toBeTrue()
-        ->and($loginConfig->themePosition)->toBe(['top' => 'auto', 'right' => 'auto', 'bottom' => '2rem', 'left' => '2rem'])
+        ->and($loginConfig->themePosition)->toBe(['top' => 'auto', 'end' => 'auto', 'bottom' => '2rem', 'start' => '2rem', 'right' => 'auto', 'left' => 'auto'])
         ->and($registrationConfig->showThemeSwitcher)->toBeTrue()
-        ->and($registrationConfig->themePosition)->toBe(['top' => '1rem', 'right' => '1rem', 'bottom' => 'auto', 'left' => 'auto']);
+        ->and($registrationConfig->themePosition)->toBe(['top' => '1rem', 'end' => '1rem', 'bottom' => 'auto', 'start' => 'auto', 'right' => 'auto', 'left' => 'auto']);
 });
 
 it('supports global render hooks merged with page hooks', function (): void {

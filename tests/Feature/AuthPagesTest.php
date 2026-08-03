@@ -38,7 +38,7 @@ it('login page returns configuration', function (): void {
 it('registration page returns configuration', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->mediaPosition(MediaPosition::Right)
+            ->mediaPosition(MediaPosition::End)
             ->media('/images/register-bg.jpg')
             ->mediaSize('50%')
         );
@@ -50,7 +50,7 @@ it('registration page returns configuration', function (): void {
 
     $config = $registerPage->getAuthDesignerConfig();
     expect($config->media)->toBe('/images/register-bg.jpg')
-        ->and($config->position)->toBe(MediaPosition::Right)
+        ->and($config->position)->toBe(MediaPosition::End)
         ->and($config->mediaSize)->toBe('50%');
 });
 
@@ -72,7 +72,7 @@ it('different auth pages have isolated configurations', function (): void {
             ->blur(10)
         )
         ->registration(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->mediaPosition(MediaPosition::Left)
+            ->mediaPosition(MediaPosition::Start)
             ->media('/register.jpg')
         );
 
@@ -91,7 +91,7 @@ it('different auth pages have isolated configurations', function (): void {
 
     $registrationConfig = $registerPage->getAuthDesignerConfig();
     expect($registrationConfig->media)->toBe('/register.jpg')
-        ->and($registrationConfig->position)->toBe(MediaPosition::Left)
+        ->and($registrationConfig->position)->toBe(MediaPosition::Start)
         ->and($registrationConfig->blur)->toBe(0);
 });
 
@@ -128,7 +128,7 @@ it('config includes theme switcher settings', function (): void {
 it('shares media size style for horizontal positions', function (): void {
     $plugin = AuthDesignerPlugin::make()
         ->login(fn (AuthPageConfig $config): AuthPageConfig => $config
-            ->mediaPosition(MediaPosition::Left)
+            ->mediaPosition(MediaPosition::Start)
             ->media('/login.jpg')
             ->mediaSize('40%')
         );

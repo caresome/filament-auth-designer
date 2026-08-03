@@ -27,7 +27,7 @@ Transform Filament's default authentication pages into stunning, brand-ready exp
 
 ## Features
 
--   🎨 **Flexible Media Positioning** - Place media on any side (Left, Right, Top, Bottom) or as a fullscreen cover
+-   🎨 **Flexible Media Positioning** - Place media on any side (Start, End, Left, Right, Top, Bottom) or as a fullscreen cover
 -   📐 **Custom Sizing** - Set media size with any CSS unit (%, px, vh, etc.)
 -   🖼️ **Media Backgrounds** - Support for both images and videos with auto-detection
 -   🌫️ **Blur Effects** - Configurable blur intensity (0-20) for Cover position
@@ -83,6 +83,8 @@ Use `MediaPosition` to control where your media appears:
 
 | Position   | Description                              | Size Applied As |
 | ---------- | ---------------------------------------- | --------------- |
+| **Start**  | Media on start, form on end              | Width           |
+| **End**    | Media on end, form on start              | Width           |
 | **Left**   | Media on left, form on right             | Width           |
 | **Right**  | Media on right, form on left             | Width           |
 | **Top**    | Media at top, form below                 | Height          |
@@ -97,24 +99,24 @@ Use `MediaPosition` to control where your media appears:
 
 ### Position Examples
 
-#### Left Position (Split-style)
+#### Start Position (Split-style)
 
 ```php
 use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
 
 ->login(fn ($config) => $config
     ->media(asset('assets/image.jpg'))
-    ->mediaPosition(MediaPosition::Left)
+    ->mediaPosition(MediaPosition::Start)
     ->mediaSize('50%') // Media takes 50% width
 )
 ```
 
-#### Right Position
+#### End Position
 
 ```php
 ->login(fn ($config) => $config
     ->media(asset('assets/image.jpg'))
-    ->mediaPosition(MediaPosition::Right)
+    ->mediaPosition(MediaPosition::End)
     ->mediaSize('40%')
 )
 ```
@@ -173,7 +175,7 @@ AuthDesignerPlugin::make()
     ->login() // Uses defaults
     ->registration() // Uses defaults
     ->passwordReset(fn ($config) => $config
-        ->mediaPosition(MediaPosition::Left) // Override position
+        ->mediaPosition(MediaPosition::Start) // Override position
         ->mediaSize('45%')
     )
     ->emailVerification() // Uses defaults
@@ -282,18 +284,18 @@ https://github.com/user-attachments/assets/154006f8-91b6-4e6e-9ed9-854442fe6a49
 Enable light/dark/system theme switcher:
 
 ```php
-->themeToggle() // Default: Top Right (1.5rem)
-->themeToggle(bottom: '2rem', right: '2rem') // Custom position
-->themeToggle(top: '1rem', left: '1rem') // Top Left
+->themeToggle() // Default: Top End (1.5rem)
+->themeToggle(bottom: '2rem', end: '2rem') // Custom position
+->themeToggle(top: '1rem', start: '1rem') // Top Start
 ```
 
-You can position the theme switcher anywhere on the screen by passing `top`, `bottom`, `left`, or `right` CSS values. Defaults to `auto` if not specified.
+You can position the theme switcher anywhere on the screen by passing `top`, `bottom`, `start`, `end`, `left` or `right` CSS values. Defaults to `auto` if not specified.
 
 You can also override the theme switcher position for specific pages:
 
 ```php
 ->login(fn ($config) => $config
-    ->themeToggle(bottom: '2rem', left: '2rem')
+    ->themeToggle(bottom: '2rem', start: '2rem')
 )
 ```
 
@@ -323,7 +325,7 @@ AuthDesignerPlugin::make()
 AuthDesignerPlugin::make()
     ->defaults(fn ($config) => $config
         ->media(asset('assets/default-bg.jpg'))
-        ->mediaPosition(MediaPosition::Right)
+        ->mediaPosition(MediaPosition::End)
         ->mediaSize('50%')
     )
     ->login(fn ($config) => $config
@@ -333,7 +335,7 @@ AuthDesignerPlugin::make()
     )
     ->registration(fn ($config) => $config
         ->media(asset('assets/register.jpg'))
-        ->mediaPosition(MediaPosition::Left)
+        ->mediaPosition(MediaPosition::Start)
         ->mediaSize('45%')
     )
     ->passwordReset(fn ($config) => $config
@@ -359,14 +361,14 @@ AuthDesignerPlugin::make()
 | `->passwordReset()`     | Configure password reset pages                              |
 | `->emailVerification()` | Configure email verification page                           |
 | `->profile()`           | Configure profile page                                      |
-| `->themeToggle()`       | Enable theme switcher (defaults to top-right, customizable) |
+| `->themeToggle()`       | Enable theme switcher (defaults to top-end, customizable)   |
 
 ### Configuration Options
 
 | Option              | Description                    | Notes                                  |
 | ------------------- | ------------------------------ | -------------------------------------- |
 | `->media()`         | Set background image/video URL | First param is URL, second is alt text |
-| `->mediaPosition()` | Set media position             | Left, Right, Top, Bottom, Cover        |
+| `->mediaPosition()` | Set media position             | Start, End, Right, Left, Top, Bottom, Cover |
 | `->mediaSize()`     | Set media size                 | px/vh/rem; ignored for Cover           |
 | `->blur()`          | Blur intensity (0-20)          | Applies to all positions               |
 | `->usingPage()`     | Use custom page class          | For custom auth pages                  |
@@ -391,7 +393,7 @@ AuthDesignerPlugin::make()
 ### Available Hook Positions
 
 > **Note:** `CardBefore` and `CardAfter` are specific to the **Cover** layout where the form is inside a card.
-> For other layouts (Left, Right, etc.), where the form is not inside a card, use Filament's native render hooks:
+> For other layouts (Start, End, etc.), where the form is not inside a card, use Filament's native render hooks:
 >
 > -   `PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE`
 > -   `PanelsRenderHook::AUTH_LOGIN_FORM_AFTER`
